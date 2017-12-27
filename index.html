@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+
+    <title>A central complex functional connectivity atlas</title>
+    <meta charset="utf-8">
+    
+    <!-- Loading plot.ly and snap.svg -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
+ 
+    <!-- Loading bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    
+   <!-- Pictograms -->
+   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Style sheet for neurons and connector classes-->
+    <link rel="stylesheet" href="main.css">
+  </head>
+
+  <body>
+
+ 
+    <!-- The navbar-->
+    
+    <nav class="navbar navbar-outline-secondary navbar-toggleable-md">
+
+       
+      <!--    <a class="navbar-brand" href="#">Project name</a>-->
+      <h3 class="navbar-brand float-left">The drosophila central complex functional connectivity atlas</h3>
+      
+      <div id="navbar" class="collapse navbar-collapse float-right">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#howto">How to</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">References</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </nav>
+    
+    <main>
+    <section class="container-fluid" id="MainPanel">
+      <div class="row no-gutters">
+  
+	<div class="col-md-10"><!-- Diagram panel-->
+	  <div class="card"><!-- Diagram card-->
+	    <div class="card-body"><!-- Diagram header (buttons)-->
+	      <div class="btn-toolbar " role="toolbar" aria-label="...">
+		<div class="btn-group">
+		  <label class="btn btn-outline-secondary" aria-label="Filter" id="thresh">
+		    <input type="checkbox" id="threshold">P&lt;0.01
+										 </label>
+		  <!--	</div><div class="btn-group">-->
+		  <button class="btn btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		    <span> Pre :</span>
+		    <span id="selected-pre"> Neuron type</span>
+		    <span class="caret"></span>
+		  </button>
+		  <div id="neuron-dd-pre" class="dropdown-menu" aria-labelledby="dropdownMenu1"></div>
+		</div>
+		<div class="btn-group">
+		  <button class="btn btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		    <span>Post :</span>
+		    <span id="selected-post"> Postsynaptic neuron</span>
+		    <span class="caret"></span>
+		  </button>
+		  <div id="neuron-dd-post" class="dropdown-menu" aria-labelledby="dropdownMenu2">  </div>
+		</div>
+
+		<div class="btn-group" role="group" aria-label="..."><!-- Diagram controls -->
+		  <button type="button" class="btn btn-outline-secondary" aria-label="zoom in" id="zoomIn">
+		    <span class="fa fa-plus"></span>
+		  </button>
+		  <button type="button" class="btn btn-outline-secondary" aria-label="zoom out" id="zoomOut">
+		    <span class="fa fa-minus"></span>
+		  </button>
+		  <button type="button" class="btn btn-outline-secondary" aria-label="zoom reset" id="zoomReset">
+		    <span class="fa fa-arrows-alt"></span>
+		  </button>
+		</div><!-- End controls-->
+		
+		
+	      </div>
+	    </div>
+	    <svg id="networkDiagram"></svg>
+	    <div class="card-body">
+	      <p>Click (or ctrl/cmd click) on neurons to toggle pre (or post) synaptic candidate.</p>
+	    </div>
+	  </div><!-- End diagram card-->
+	</div><!--End diagram col -->
+
+	<div class="col-md-2"><!-- Legend panel-->
+	  <div class="card-column">
+	    <div class="card"><!-- Schematic and selector card-->
+	      <h6 class="card-title">Neuropile selector</h6>
+	      <svg id="legend"></svg>
+	      <div class="card-block text-center">
+		<div class="btn-group">
+		  <button type="button" class="btn btn-outline-secondary btn-sm" aria-label="selectAll" id="selectAll">
+		    Select All
+		  </button>
+		  <button type="button" class="btn btn-outline-secondary btn-sm" aria-label="selectAll" id="unselectAll">
+		    Unselect All
+		  </button>
+		</div>
+	      </div><!-- End button block-->
+	    </div><!-- End schematic and selector card-->
+	    
+	    <div class="card">
+	      <h6 class="card-title">Response strength</h6>
+		  <svg id="legendStrength" style="margin: auto; display: block"></svg>
+	    </div><!-- End Strength card-->
+	    <div class="card">
+	      <h6 class="card-title">Response reliability</h6>
+	      <svg id="legendReliability" style="margin: auto; display: block"></svg>
+	       <p class="card-text"> Dashed lines indicate pairs predicted to not be connected by light level anatomy.</p>
+	    </div><!-- End reliability card -->
+	  </div><!-- End card column-->
+	</div><!-- End legend panel-->
+      </div><!--End first row-->
+
+
+
+	   
+
+      <div class="row">
+	<div class="col-md-6">
+	  <div class="card">
+	  <div  style="width: 100%; position: relative" id="mPlotContainer">
+            <div style="position: absolute; top:0; left: 0; right: 0; bottom: 0" id="matrixPlot"></div>
+	  </div>
+	  </div>
+	  
+	  <div class="card-group">
+	    <div class="card">
+	      <div class="card-header">
+		<h5 id="neuron-title-pre">Pre</h5>
+	      </div>
+	      <div class="card-block">
+		<div class="row" id="neuron-description-pre">
+		  <div class="col-md-12" style="text-align:center">
+		    <svg style="margin: auto; display: block" id="neuron-drawing-pre"></svg>
+		  </div>
+
+		  <h6 id="neuron-full-name-pre">Pre</h6>
+
+		</div>
+		<h6 id="neuron-full-name-pre">Pre</h6>
+		
+		<h5>Drivers used</h5>
+		<div class="row" id="drivers-pre"></div>
+	      </div>
+	  </div>
+	    
+	    <div class="card">
+	     <div class="card-header">
+		<h5 id="neuron-title-post">Post</h5>
+	      </div>
+	      <div class="card-block">
+		<div class="row" id="neuron-description-post">
+		  <div class="col-md-12" style="text-align:center">
+		    <svg style="margin: auto; display: block" id="neuron-drawing-post"></svg>
+		  </div>
+		</div>
+
+		  <h6 id="neuron-full-name-post">Post</h6>
+		
+		<h5>Drivers used</h5>
+		<div class="row" id="drivers-post"></div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	</div>
+
+	
+		<!-- the plot -->
+		<div class="col-md-6">
+		  <div class="card" id="rawPlot-panel">
+		    <div class="card-header clearfix">
+		      <h6 class="pull-left" id="rawPlot-title"><a class="neuronName preName">Pre</a> to <a class="neuronName postName">post</a></h6>
+		      <a class="pull-right" data-toggle="popover" data-container="body" data-placement="left"  data-content="Each color corresponds to a different fly (4 repeats per fly). Stimulation is indicated by the grayed area and consisted of 2ms light pulse trains delivered at 30Hz.">
+			About this plot
+		      </a>
+		    </div>
+		    <div class="card-block">
+		    <div class="row" id="plot-controls">
+		      <div class="col-md-6">  
+			<div class="btn-group" role="group" data-toggle="buttons" id="raw-to-avg"> <!--Supplement an id here instead of using 'name'-->
+			  <label class="btn btn-outline-secondary active"><input type="radio" name="trace" id="raw" checked>Raw traces</label> 
+			  <label class="btn btn-outline-secondary"><input type="radio" name="trace" id="avg">Fly averages</label>
+			</div>
+		      </div>
+	    
+		      <div class="col-md-6">
+			Number of pulses :
+			<div class="btn-group" role="group" data-toggle="buttons" id="pulses"> <!--Supplement an id here instead of using 'name'-->
+			  <label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=1>1</label> 
+			  <label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=5>5</label>
+			  <label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=10>10</label> 
+			  <label class="btn btn-outline-secondary active"><input type="radio" name="pulses" value=20 checked>20</label>
+			  <label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=30>30</label>
+			</div>
+		      </div>
+		    </div>
+		    <div class="row">
+		      <div style="width: 100%">
+			<div style="min-height: 100%" id="rawPlot"></div>
+		      </div>
+		<!--	<div  class="col" style="min-height: 100%" id="rawPlot"></div>-->
+		    </div>
+		    </div>
+		    
+		    <div class="row">
+		      <div class="col">
+			<h6 class="card-title">Response to baseline relationship</h6>
+			<div style="width: 100%">
+			  <div style="min-height: 100%" id="baselinePlot"></div>
+			</div>
+		      </div>
+		      <div class="col">
+			<h6 class="card-title">Dose response curve</h6>
+			<div style="width: 100%">
+			  <div  style="min-height: 100%" id="dosePlot"></div>
+			</div>
+		      </div>
+		    </div>
+	  	    
+		  </div>  
+		</div>
+		
+      </div>
+      <!-- end plot -->
+
+</section>
+
+<section class="container-fluid" id="howto">
+  <div class="row">
+    <div class="col">
+      <div class="card">
+	<div class="card-header">
+	  <h5>Statistics</h5>
+	</div>
+	<div class="card-block">
+	  <div class= card-text id="numbers">
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+    <footer class="container-fluid">
+    </footer>
+    <script type="text/javascript" src="full_data.js"></script>
+    <script type="text/javascript" src="avg_data.js"></script>
+    <script type="text/javascript" src="pairsToExp.js"></script>
+    <script type="text/javascript" src="drivers.js"></script>
+    <script type="text/javascript" src="supertypes.js"></script>
+    <script type="text/javascript" src="neurontypes.js"></script>
+    <script type="text/javascript" src="summaryData.js"></script>
+    <script type="text/javascript" src="superSummary.js"></script>
+    <script type="text/javascript" src="perRunData.js"></script>
+    <script type="text/javascript" src="variableDefs.js"></script>
+    <script type="text/javascript" src="plots-and-layouts.js"></script>
+    <script type="text/javascript" src="mainDiagram.js"></script>
+    <script type="text/javascript" src="interactivity.js"></script>
+  </body>
+</html>

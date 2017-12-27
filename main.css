@@ -1,0 +1,102 @@
+
+/* Neuropiles*/
+.unselected_neuropile {
+    fill: LightGray;
+    stroke: Gray;
+    fill-opacity: 1;
+}
+
+.neuropile-diagram{
+    fill-opacity: 1;
+}
+
+/* Connectors*/
+.legend-connector{
+    fill: none;
+    stroke-linecap: round;
+}
+
+.connector{
+    fill: none;
+    stroke-linecap: round;
+}
+
+.connector-clickable{
+    fill: none;
+    stroke: none;
+}
+
+.connector-clickable:hover .connector{
+    stroke-opacity: 1;
+}
+
+.excitatory-connector{
+    stroke: #c0392b;
+    marker-mid: url(#arrow-exc);
+}
+
+.inhibitory-connector{
+    stroke: #2980b9;
+    marker-mid: url(#arrow-inh);
+}
+
+.unselected_by_neuron {
+    stroke: LightGray;
+    marker-mid: url(#arrow-hidden);
+}
+
+.unselected_connection {
+    stroke: LightGray;
+    marker-mid: url(#arrow-hidden);
+}
+
+.active-connector{
+    stroke-opacity: 1;
+    stroke: #2ecc71;
+}
+
+.selected_by_neuron{
+    stroke-opacity: 0.7;
+}
+
+/* Arrows */
+.arrow{
+    fill-opacity: 0.7; 
+    orient: auto;
+}
+
+/* Neurons */
+.single_neuron{
+    stroke: gray;
+    fill: gray;
+    fill-opacity: 1    ;
+}
+
+.neuron{
+    fill: none;
+}
+
+.neuron-selected-pre {
+    fill: #ffbb33;
+    fill-opacity: 0.2;
+}
+
+.neuron-selected-post {
+    fill: #33b5e5;
+    fill-opacity: 0.2;
+}
+
+.neuron-selected-pre.neuron-selected-post {
+    fill: #00C851;
+    fill-opacity: 0.2;
+}
+/* Plot area*/
+.unactive-plot{
+    filter: opacity(25%);
+}
+
+#mPlotContainer::before {
+  content: '';
+  padding-top: 100%;
+  display: block;
+}
