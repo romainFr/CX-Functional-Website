@@ -64,7 +64,16 @@ function neuronClicked(neuron_type,position="pre"){//Remove previously highlight
     
     $(".single_neuron_drawing-"+position).remove();
 
+    $(".neuropile-neuron-"+position).removeClass("neuropile-diagram-pre neuropile-diagram-post");
+    
     if (!selected){
+	for (let np of POSSIBLE_NEUROPILES){
+	    if (NEURON_TYPES[neuron_type].pre.includes(np)){
+		$(".neuropile-neuron-"+position+"[np='"+np+"']").addClass("neuropile-diagram-pre");};
+	    if  (NEURON_TYPES[neuron_type].post.includes(np)){
+		$(".neuropile-neuron-"+position+"[np='"+np+"']").addClass("neuropile-diagram-post");};
+	}
+	
 	let neuron = s.select("g[id='"+neuron_type+"']");
 	let neuronD = neuron.clone().addClass("single_neuron_drawing-"+position+" single_neuron");
 	Snap('#neuropiles-neuron-'+position).append(neuronD);

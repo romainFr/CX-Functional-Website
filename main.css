@@ -1,12 +1,86 @@
+/* Colors definitions */
+:root {
+    --excitatory-color: #b37d7a;
+    --inhibitory-color: #68aca8;
+    --pre-color: #928276;
+    --post-color: #7C9DA3;
+    --mixt-color: #C9D3C2;
+    --highlight-color: #43433b;
+}
+
+/*Buttons (bootstrap modifs)*/
+.btn-outline-warning,.btn-outline-warning.active{
+    color: var(--pre-color);
+    border-color: var(--pre-color);
+}
+
+.btn-outline-warning:hover,
+.btn-outline-warning:active,
+.btn-outline-warning:focus,
+.btn-outline-warning:active:focus,
+.show > .btn-outline-warning.dropdown-toggle{
+    background: var(--pre-color);
+    border-color: var(--pre-color);
+    color: white;
+    box-shadow: none;
+}
+
+.btn-outline-info:hover,
+.btn-outline-info:active,
+.btn-outline-info:focus,
+.btn-outline-info.active,
+.btn-outline-info:active:focus,
+.show > .btn-outline-info.dropdown-toggle{
+    background: var(--post-color);
+    border-color: var(--post-color);
+    color: white;
+    box-shadow: none;
+}
+    
+.btn-outline-info{
+    color: var(--post-color);
+    border-color: var(--post-color);
+}
+
 
 /* Neuropiles*/
-.unselected_neuropile {
+
+.neuropile,  .neuropile-diagram{
+    fill-opacity: 1;
+    fill: var(--mixt-color);
+    stroke: Gray;
+}
+
+.neuropile-neuron-pre,
+.neuropile-neuron-post{
+    fill-opacity: 1;
     fill: LightGray;
     stroke: Gray;
+}
+
+
+.neuropile-diagram-pre{
+    fill-opacity: 1;
+    fill: var(--pre-color);
+}
+
+.neuropile-diagram-post{
+    fill-opacity: 1;
+    fill: var(--post-color);
+}
+
+.neuropile-diagram-pre.neuropile-diagram-post{
+    fill-opacity: 1;
+    fill: var(--mixt-color);
+}
+
+.neuropile-diagram-pre.neuropile-diagram-post.unselected_neuropile {
+    fill: LightGray;
     fill-opacity: 1;
 }
 
-.neuropile-diagram{
+.unselected_neuropile {
+    fill: LightGray;
     fill-opacity: 1;
 }
 
@@ -31,12 +105,12 @@
 }
 
 .excitatory-connector{
-    stroke: #c0392b;
+    stroke: var(--excitatory-color);
     marker-mid: url(#arrow-exc);
 }
 
 .inhibitory-connector{
-    stroke: #2980b9;
+    stroke: var(--inhibitory-color);
     marker-mid: url(#arrow-inh);
 }
 
@@ -52,7 +126,7 @@
 
 .active-connector{
     stroke-opacity: 1;
-    stroke: #2ecc71;
+    stroke: var(--highlight-color);
 }
 
 .selected_by_neuron{
@@ -67,8 +141,8 @@
 
 /* Neurons */
 .single_neuron{
-    stroke: gray;
-    fill: gray;
+    stroke: var(--highlight-color);
+    fill: var(--highlight-color);
     fill-opacity: 1    ;
 }
 
@@ -77,18 +151,18 @@
 }
 
 .neuron-selected-pre {
-    fill: #ffbb33;
+    fill: var(--pre-color);
     fill-opacity: 0.2;
 }
 
 .neuron-selected-post {
-    fill: #33b5e5;
+    fill: var(--post-color);
     fill-opacity: 0.2;
 }
 
 .neuron-selected-pre.neuron-selected-post {
-    fill: #00C851;
-    fill-opacity: 0.2;
+    fill: var(--mixt-color);
+    fill-opacity: 0.4;
 }
 /* Plot area*/
 .unactive-plot{

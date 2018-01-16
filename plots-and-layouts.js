@@ -110,7 +110,7 @@ function makeRawTraces(nP,table_line){
 		series.push({x: exper.x,
 			     y: exper.y[y],
 			     name: expe,
-			     opacity: 0.8,
+			     opacity: 1,
 			     text: expe,
 			     hoverinfo: "x+y+text",
 			     line: {
@@ -124,7 +124,7 @@ function makeRawTraces(nP,table_line){
 	    series.push({x: avg_exper.x,
 			 y: avg_exper.y,
 			 name: expe,
-			 opacity: 0.8,
+			 opacity: 1,
 			 text: expe+"average",
 			 hoverinfo: "x+y+text",
 			 line: {
@@ -165,7 +165,7 @@ function makeBaselinePlot(runs_data){
 				 mode: 'markers',
 				 type: 'scatter',
 				 marker: {size: 12,
-					  color: 'cornflowerblue'},
+					  color: INH_COLOR},
 				 visible: (nP == $('input[name=pulses]:checked').val()),
 				 pulse_selector: nP
 				});
@@ -191,7 +191,7 @@ function makeDosePlot(pair_data){
 			 mode: 'markers',
 			 type: 'scatter',
 			 marker: {size: 12,
-				  color: 'cornflowerblue'}};
+				  color: INH_COLOR}};
 
     let dosePlotSerieL = {x: [1,5,10,20,30],
 			 y: lowCI,
@@ -253,7 +253,7 @@ function makeMatrixPlot(metric){
 	    z: matstat,    // The heatmap
 	    x: Object.keys(NEURON_TYPES),
 	    y: Object.keys(NEURON_TYPES),
-	    colorscale: [[0,'#2980b9'],[midPoint,'rgb(217,217,217)'],[1,'#c0392b']],
+	    colorscale: [[0,INH_COLOR],[midPoint,'rgb(217,217,217)'],[1,EXC_COLOR]],
 	    type: 'heatmap',
 	    hoverinfo: "y+x+z"
 	},
@@ -273,7 +273,7 @@ function makeMatrixPlot(metric){
 	    type: "scatter",
 	    mode: "markers",
 	    marker: {
-		color: "gray",
+		color: HGH_COLOR,
 	//	size: 14,
 		symbol: "square-open"
 	    },
@@ -285,7 +285,7 @@ function makeMatrixPlot(metric){
 	  type: "scatter",
 	  mode: "markers",
 	  marker: {
-	      color: "#2ecc71",
+	      color: HGH_COLOR,
           //    size: 10
 	  },
 	  showlegend: false,

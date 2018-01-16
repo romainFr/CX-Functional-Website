@@ -1,4 +1,7 @@
 // Neuropiles and colors
+const EXC_COLOR = getComputedStyle(document.body).getPropertyValue("--excitatory-color");
+const INH_COLOR =  getComputedStyle(document.body).getPropertyValue('--inhibitory-color');
+const HGH_COLOR =  getComputedStyle(document.body).getPropertyValue('--highlight-color');
 
 const POSSIBLE_NEUROPILES = ["PB","FB","EB","NO","GA","LAL",
                           //"cre",
@@ -45,17 +48,32 @@ const NEUROPILES_COLORS_DARK = {
 };
 
 const PULSE_N = ['1','5','10','20','30'];
-const PLOT_COLORS = ["#8f2a62",
-                   "#58c992",
-                   "#5d398d",
-                   "#a4be54",
-                   "#647fd6",
-                   "#d28e40",
-                   "#cc78c9",
-                   "#4a8332",
-                   "#d55679",
-                   "#c29e4b",
-                   "#a12412",
-		   "#dd6f55"];
+const PLOT_COLORS =["#153337",
+		    "#c1e1e4",
+		    "#1f0a11",
+		    "#d3d6c1",
+		    "#372d20",
+		    "#8aa39d",
+		    "#525745",
+		    "#b6978c",
+		    "#3e5755",
+		    "#a28b91",
+		    "#6b909b",
+		    "#8f937f"]
+
+
+
+    //  ["#8f2a62",
+      //             "#58c992",
+        //           "#5d398d",
+          //         "#a4be54",
+            //       "#647fd6",
+              //     "#d28e40",
+                //   "#cc78c9",
+                  // "#4a8332",
+           //        "#d55679",
+             //      "#c29e4b",
+               //    "#a12412",
+		 //  "#dd6f55"];
 
 const FLY_LIGHT = "https://flweb.janelia.org/cgi-bin/view_flew_imagery.cgi?line=R";

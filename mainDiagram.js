@@ -43,7 +43,7 @@ s.path("M0,0 L0,3 L4.5,1.5 z")
     .attr({"markerUnits": "strokeWidth",
            "id": "arrow-exc",
 	   "stroke": "none",
-           "fill": Snap.flat.pomegranate
+           "fill": EXC_COLOR//Snap.flat.pomegranate
           }).toDefs();
 
 s.path("M0,0 L0,3 L4.5,1.5 z")
@@ -52,7 +52,7 @@ s.path("M0,0 L0,3 L4.5,1.5 z")
     .attr({
            "markerUnits": "strokeWidth",
            "id": "arrow-inh",
-           "fill": Snap.flat.belizehole
+           "fill": INH_COLOR//Snap.flat.belizehole
     }).toDefs();
 
 s.path("M0,0 L0,3 L4.5,1.5 z")
@@ -74,11 +74,12 @@ let eStr = [1,0.5,0.1]
 let scale_factor = (sT.node.getBoundingClientRect().height/DIAGRAM_HEIGHT)*(199/strLegend.node.getBoundingClientRect().width);
 console.log(scale_factor)
 for (str in eStr){
+    let realStr = eStr[str]+0.08
     let yposi = 20*(Number(str)%2+1)
     let xposi = 90*(~~(Number(str)/2))+20
-    strLeg.line(xposi,yposi,xposi+35,yposi).addClass("legend-connector width-connector").attr({"stroke-width": SCALE_LINKS*Math.sqrt(eStr[str])*scale_factor,
-								                "data-virtualwidth": SCALE_LINKS*Math.sqrt(eStr[str])*scale_factor,
-								                "data-strength": eStr[str],
+    strLeg.line(xposi,yposi,xposi+35,yposi).addClass("legend-connector width-connector").attr({"stroke-width": SCALE_LINKS*Math.sqrt(realStr)*scale_factor,
+								                "data-virtualwidth": SCALE_LINKS*Math.sqrt(realStr)*scale_factor,
+								                "data-strength": realStr,
 								                "stroke": "gray"
 											  })
     strLeg.text(40+xposi,yposi,eStr[str]).attr({"dominant-baseline": "central"})
@@ -141,7 +142,7 @@ Snap.load("images/CXSchematicAnnotatedWithNeurons.svg",function(f){
 
     var neuronDrawPost = neP.attr({id: "neuropiles-neuron-post"});
     
-    drawNeuropiles(POSSIBLE_NEUROPILES,neuronDraw,"neuropile-neuron","","_inDiagram",CX_TRANS,neuropile_fragments)
+    drawNeuropiles(POSSIBLE_NEUROPILES,neuronDraw,"neuropile-neuron-pre","","_inDiagram",CX_TRANS,neuropile_fragments)
     drawNeuropiles(POSSIBLE_NEUROPILES,neuronDrawPost,"neuropile-neuron-post","","_inDiagram",CX_TRANS,neuropile_fragments)
    
     // Draw the links
@@ -181,7 +182,7 @@ function drawNeuron(drawing,parent,neuron_type,frags,CX_TRANS,position){
 
     g.addClass("neuron")
     // First the neuropiles
-    drawNeuropiles(NEURON_TYPES[neuron_type].innervates,g,"neuropile-diagram",neuron_type+"-","",CX_TRANS,frags)
+    drawNeuropiles(NEURON_TYPES[neuron_type].innervates,g,"neuropile-diagram",neuron_type+"-","",CX_TRANS,frags,false,NEURON_TYPES[neuron_type].pre,NEURON_TYPES[neuron_type].post)
    
     // Then the neuron itself
     neuron = drawing.select("g[id='"+neuron_type+"']");
@@ -201,16 +202,30 @@ function drawNeuron(drawing,parent,neuron_type,frags,CX_TRANS,position){
     return g
 }
 
-function drawNeuropiles(neuropiles,parent,class_name,id_pre,id_post,transfo,frags,add_title=false){
+function drawNeuropiles(neuropiles,
+			parent,
+			class_name,
+			id_pre,
+			id_post,
+			transfo,
+			frags,
+			add_title=false,
+			preRegions=[],
+			postRegions=[]){
     for (let np of neuropiles){
 	//let npile_templ = drawing.group();
-	let npile = frags[NEUROPILES_FULL_NAMES[np]].use().addClass(class_name).attr({fill: NEUROPILES_COLORS[np],                                            
-										      stroke: NEUROPILES_COLORS_DARK[np],
+	let npile = frags[NEUROPILES_FULL_NAMES[np]].use().addClass(class_name).attr({
 										      transform: transfo,
 										      id: id_pre+NEUROPILES_FULL_NAMES[np]+id_post,
 										      np: np
 										     });
 	//npile_templ.append(npile)
+	if (preRegions.includes(np)){
+	    npile.addClass("neuropile-diagram-pre")
+	}
+	if (postRegions.includes(np)){
+	    npile.addClass("neuropile-diagram-post")
+	}
 	if (add_title == true){
 	    let  title = Snap.parse('<title>'+NEUROPILES_FULL_NAMES[np]+'</title>');
 	    npile.append(title);
@@ -324,10 +339,10 @@ function drawLink(table_line,summary_line){
               });
         
     if (table_line.integNorm < 0){
-	strength = -summary_line.distanceNorm//- table_line.integNorm * 4;
+	strength = -summary_line.distanceNorm + 0.08//- table_line.integNorm * 4;
 	link.addClass("inhibitory-connector")
     } else {
-	strength = summary_line.distanceNorm//table_line.integNorm;
+	strength = summary_line.distanceNorm + 0.08//table_line.integNorm;
 	link.addClass("excitatory-connector")
     }
     link.attr({"stroke-width": SCALE_LINKS*Math.sqrt(strength)});
