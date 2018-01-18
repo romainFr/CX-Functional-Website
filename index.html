@@ -4,18 +4,19 @@
 
     <title>A central complex functional connectivity atlas</title>
     <meta charset="utf-8">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Loading plot.ly and snap.svg -->
     <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>-->
     <script src="libraries/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
  
     <!-- Loading bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
     
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
    <!-- Pictograms -->
    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -110,16 +111,107 @@
 		</div>
 	      </div><!-- End button block-->
 	    </div><!-- End schematic and selector card-->
-	    
+	      
 	    <div class="card">
-	      <h6 class="card-title">Response strength</h6>
-		  <svg id="legendStrength" style="margin: auto; display: block"></svg>
-	    </div><!-- End Strength card-->
+	      <div class="card-body">
+		<div class="row">
+		  <div class="col col-xl-6">
+		    <h6 class="card-subtitle">Response strength</h6>
+		    <div class="d-flex flex-row align-items-center">
+		      <svg  width="40%" height="40">
+			<line class="legend-connector width-connector"  x1="0" y1="20" x2="100%" y2="20" stroke="gray" data-strength="1.08"/>
+		      </svg>
+		      <a class="p-1">1</a>
+		    </div >
+		    <div class="d-flex flex-row align-items-center">
+		      <svg  width="40%" height="40">
+			<line class="legend-connector width-connector" x1="0" y1="20"x2="100%" y2="20" stroke="gray" data-strength="0.58"/>
+		      </svg>
+		      <a class="p-1">0.5</a>
+		    </div>
+		    <div class="d-flex flex-row align-items-center">
+		      <svg  width="40%" height="40">
+			<line class="legend-connector width-connector" x1="0" y1="20" x2="100%" y2="20" stroke="gray" data-strength="0.18"/>
+		      </svg>
+		      <a class="p-1">0.1</a>
+		    </div>	
+		  </div>
+	    <!-- Reliability column-->
+	    <div class="col col-xl-6">
+	      <h6 class="card-subtitle">Response reliability</h6>
+	      <div class="d-flex flex-row align-items-center">
+		<svg  width="40%" height="10">
+		  <line class="legend-connector" stroke-opacity="0.74" x1="0%" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+		</svg>
+		<a class="p-1">1</a>
+	      </div >
+	      <div class="d-flex flex-row align-items-center">
+		<svg  width="40%" height="10">
+		  <line class="legend-connector" stroke-opacity="0.47" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+		</svg>
+		<a class="p-1">0.5</a>
+	      </div>
+	      <div class="d-flex flex-row align-items-center">
+		<svg  width="40%" height="10">
+		  <line class="legend-connector" stroke-opacity="0.3" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+		</svg>
+		<a class="p-1">0.25</a>
+	      </div>
+	      
+	      <div class="d-flex flex-row align-items-center">
+		<svg  width="40%" height="10">
+		  <line class="legend-connector" stroke-opacity="0.09" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+		</svg>
+		<a class="p-1">0</a>
+	      </div>    
+	    </div><!-- End column -->
+		</div>
+	      </div>
+	    <!-- Color code for connectors-->
 	    <div class="card">
-	      <h6 class="card-title">Response reliability</h6>
-	      <svg id="legendReliability" style="margin: auto; display: block"></svg>
-	       <p class="card-text"> Dashed lines indicate pairs predicted to not be connected by light level anatomy.</p>
-	    </div><!-- End reliability card -->
+	      <div class="card-body">
+		<h6 class="card-subtitle">Response sign</h6>
+		<div class="d-flex flex-wrap align-items-center">
+		  <svg  width="20%" height="10">
+		    <line class="legend-connector excitatory-connector" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+		  </svg>
+		  <a class="p-1">Excitation</a>
+		</div >
+		<div class="d-flex flex-row align-items-center">
+		  <svg  width="20%" height="10">
+		    <line class="legend-connector inhibitory-connector" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+		</svg>
+		  <a class="p-1">Inhibition</a>
+		</div>
+		<p class="card-text"> Dashed lines indicate pairs predicted to not be connected by light level anatomy.</p>
+	      </div><!-- End card body -->
+	    </div><!-- End card-->
+		
+
+		
+	    <div class="card">
+	      <div class="card-body">
+		<h6 class="card-subtitle">Polarity</h6>
+		    <div class="d-flex flex-wrap align-items-center">
+		      <svg  width="20%" height="20">
+			<rect id="preLegend" x="0" y="0" width="100%" height="100%"/>
+		      </svg>
+		      <a class="p-1">Presynaptic</a>
+		    </div>
+		    <div class="d-flex flex-wrap align-items-center">
+		      <svg  width="20%" height="20">
+			<rect id="postLegend" x="0" y="0" width="100%" height="100%"/>
+		      </svg>
+		      <a class="p-1">Postsynaptic</a>
+		    </div>
+		    <div class="d-flex flex-row align-items-center">
+		      <svg  width="20%" height="20">
+			<rect id="mixedLegend" x="0" y="0" width="100%" height="100%"/>
+		      </svg>
+		      <a class="p-1">Mixed</a>
+		    </div>
+	      </div>
+	    </div><!-- End Polarity card-->
 	  </div><!-- End card column-->
 	</div><!-- End legend panel-->
       </div><!--End first row-->

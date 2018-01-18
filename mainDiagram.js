@@ -64,43 +64,15 @@ s.path("M0,0 L0,3 L4.5,1.5 z")
            "fill": "LightGray"
           }).toDefs();
 
-// Draw the legends
+// Scale the legends
 
-let strLegend = Snap("#legendStrength");
-strLegend.attr({viewBox: [0,0,199,98]}); 
-let strLeg = strLegend.group();
-
-let eStr = [1,0.5,0.1]
-let scale_factor = (sT.node.getBoundingClientRect().height/DIAGRAM_HEIGHT)*(199/strLegend.node.getBoundingClientRect().width);
+let scale_factor = (sT.node.getBoundingClientRect().height/DIAGRAM_HEIGHT)//*(199/strLegend.node.getBoundingClientRect().width);
 console.log(scale_factor)
-for (str in eStr){
-    let realStr = eStr[str]+0.08
-    let yposi = 20*(Number(str)%2+1)
-    let xposi = 90*(~~(Number(str)/2))+20
-    strLeg.line(xposi,yposi,xposi+35,yposi).addClass("legend-connector width-connector").attr({"stroke-width": SCALE_LINKS*Math.sqrt(realStr)*scale_factor,
-								                "data-virtualwidth": SCALE_LINKS*Math.sqrt(realStr)*scale_factor,
-								                "data-strength": realStr,
-								                "stroke": "gray"
-											  })
-    strLeg.text(40+xposi,yposi,eStr[str]).attr({"dominant-baseline": "central"})
-}
-strLeg.line(20,20*3,55,20*3).addClass("legend-connector excitatory-connector").attr({"stroke-width": SCALE_LINKS*scale_factor});
-strLeg.text(60,20*3,"Exc.").attr({"dominant-baseline": "central"});
-strLeg.line(110,20*3,145,20*3).addClass("legend-connector inhibitory-connector").attr({"stroke-width": SCALE_LINKS*scale_factor});
-strLeg.text(150,20*3,"Inh.").attr({"dominant-baseline": "central"});
 
-let relLegend = Snap("#legendReliability");
-relLegend.attr({viewBox: [0,0,199,75]}); 
-let relLeg = relLegend.group();
-
-eStr = [1,0.5,0.25,0];
-for (str in eStr){
-    let yposi = 20*(Number(str)%2+1)
-    let xposi = 90*(~~(Number(str)/2))+20
-    relLeg.line(xposi,yposi,xposi+35,yposi).addClass("legend-connector").attr({"stroke-width": SCALE_LINKS*scale_factor,
-									       "stroke": "black",									     "stroke-opacity":Math.log(Number(eStr[str])+1.1)});
-    relLeg.text(40+xposi,yposi,String(eStr[str])).attr({"dominant-baseline": "central"})
-};
+$(".legend-connector.width-connector").map(function(){
+	$(this).data("virtualwidth",parseFloat(SCALE_LINKS*Math.sqrt($(this).data("strength")))*scale_factor)
+	$(this).css("stroke-width",$(this).data("virtualwidth"));
+    })
 
 
 // Load the svg diagram

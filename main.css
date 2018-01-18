@@ -1,11 +1,24 @@
 /* Colors definitions */
 :root {
-    --excitatory-color: #b37d7a;
-    --inhibitory-color: #68aca8;
-    --pre-color: #928276;
-    --post-color: #7C9DA3;
-    --mixt-color: #C9D3C2;
+    --excitatory-color: #B88784;
+    --inhibitory-color: #4E9496;
+    --pre-color: #928479;
+    --post-color: #7C8FA3;
+    --mixt-color: #b0b39f;
     --highlight-color: #43433b;
+}
+
+/* Legends */
+#preLegend{
+    fill: var(--pre-color);
+}
+
+#postLegend{
+    fill: var(--post-color);
+}
+
+#mixedLegend{
+    fill: var(--mixt-color);
 }
 
 /*Buttons (bootstrap modifs)*/
@@ -164,6 +177,7 @@
     fill: var(--mixt-color);
     fill-opacity: 0.4;
 }
+
 /* Plot area*/
 .unactive-plot{
     filter: opacity(25%);
