@@ -232,3 +232,5 @@ $(document).on("click",".neuropile",function(){
         linksHere.toggleClass("unselected_connection",np_schematics.hasClass("unselected_neuropile"));
 
 });
+
+

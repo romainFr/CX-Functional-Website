@@ -410,6 +410,7 @@ $("#numbers").text("The current diagram contains " + nNeurons + " neurons and "+
 /// Plot the matrix plot
 makeMatrixPlot("distanceNorm");
 /// The plots don't resize automatically otherwise
+
 window.onresize = function(){
     Plotly.Plots.resize($("#rawPlot").get()[0])
     Plotly.Plots.resize($("#matrixPlot").get()[0])

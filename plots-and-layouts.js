@@ -7,7 +7,7 @@ let raw_layout = { xaxis:  {title: 'Time (s)',
 		                zeroline: false},
 		            showlegend: false,
 		            hovermode: 'closest',
-		   autosize: true,
+		 //  autosize: true,
 		   margin: {l: 60,
 			    t: 10,
 			    r: 20},
@@ -37,7 +37,7 @@ let dose_layout = { xaxis:  {title: 'Number of pulses',
 		            zeroline: false},
 		    showlegend: false,
 		    hovermode: 'closest',
-		    autosize: true,
+		   // autosize: true,
 		    margin: {
 			l: 60,
 			t: 10,
@@ -51,7 +51,7 @@ let baseline_layout = { xaxis:  {title: 'Fluorescence baseline (\u0394F/F)',
 		            zeroline: false},
 			showlegend: false,
 			hovermode: 'closest',
-			autosize: true,
+		//	autosize: true,
 			margin: {
 			    l: 60,
 			    t: 10,
@@ -62,7 +62,7 @@ let baseline_layout = { xaxis:  {title: 'Fluorescence baseline (\u0394F/F)',
 let matlayout = {
    // width: 800,
     // height: 800,
-    autosize: true,
+//    autosize: true,
     xaxis: {
 	title: "Post-synaptic candidate",
 	autorange: true,
@@ -293,6 +293,6 @@ function makeMatrixPlot(metric){
 	}
     ];
     
-    Plotly.newPlot('matrixPlot',matdata,matlayout)
+    Plotly.newPlot('matrixPlot',matdata,matlayout,{displaylogo: false})
 }
 

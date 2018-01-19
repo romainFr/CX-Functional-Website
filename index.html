@@ -6,8 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Loading plot.ly and snap.svg -->
-    <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>-->
-    <script src="libraries/plotly-latest.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
  
     <!-- Loading bootstrap -->
@@ -45,34 +44,34 @@
     </nav>
     
     <main>
-    <section class="container-fluid" id="MainPanel">
-      <div class="row no-gutters">
-  
-	<div class="col-md-10"><!-- Diagram panel-->
-	  <div class="card"><!-- Diagram card-->
-	    <div class="card-body"><!-- Diagram header (buttons)-->
-	      <div class="btn-toolbar " role="toolbar" aria-label="...">
-		<div class="btn-group">
+      <section class="container-fluid" id="MainPanel">
+	<div class="row no-gutters">
+	  <div class="col-md-10"><!-- Diagram panel-->
+	    <div class="card"><!-- Diagram card-->
+	      <div class="btn-toolbar justify-content-around" role="toolbar" aria-label="...">
+		<!--<div class="btn-group">-->
+		<form class="form-inline">
 		  <label class="btn btn-outline-secondary" aria-label="Filter" id="thresh">
 		    <input type="checkbox" id="threshold">P&lt;0.01
-										 </label>
+		  </label>
 		  <!--	</div><div class="btn-group">-->
 		  <button class="btn btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-		    <span> Pre :</span>
-		    <span id="selected-pre"> Neuron type</span>
-		    <span class="caret"></span>
+		      <span> Pre :</span>
+		      <span id="selected-pre"> Neuron type</span>
+		      <span class="caret"></span>
 		  </button>
 		  <div id="neuron-dd-pre" class="dropdown-menu" aria-labelledby="dropdownMenu1"></div>
-		</div>
-		<div class="btn-group">
+		    
 		  <button class="btn btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 		    <span>Post :</span>
 		    <span id="selected-post"> Neuron type</span>
 		    <span class="caret"></span>
 		  </button>
-		  <div id="neuron-dd-post" class="dropdown-menu" aria-labelledby="dropdownMenu2">  </div>
-		</div>
+		  <div id="neuron-dd-post" class="dropdown-menu" aria-labelledby="dropdownMenu2"></div>
+		</form>
 
+		<p class="float-right">Click (or ctrl/cmd click) on neurons to toggle pre (or post) synaptic candidate.</p>
+		
 		<div class="btn-group" role="group" aria-label="..."><!-- Diagram controls -->
 		  <button type="button" class="btn btn-outline-secondary" aria-label="zoom in" id="zoomIn">
 		    <span class="fa fa-plus"></span>
@@ -83,115 +82,111 @@
 		  <button type="button" class="btn btn-outline-secondary" aria-label="zoom reset" id="zoomReset">
 		    <span class="fa fa-arrows-alt"></span>
 		  </button>
-		</div><!-- End controls-->
+		</div><!-- End zoom controls-->
 		
-		
-	      </div>
-	    </div>
-	    <svg id="networkDiagram"></svg>
-	    <div class="card-body">
-	      <p>Click (or ctrl/cmd click) on neurons to toggle pre (or post) synaptic candidate.</p>
-	    </div>
-	  </div><!-- End diagram card-->
-	</div><!--End diagram col -->
-
-	<div class="col-md-2"><!-- Legend panel-->
-	  <div class="card-column">
-	    <div class="card"><!-- Schematic and selector card-->
-	      <h6 class="card-title">Neuropile selector</h6>
-	      <svg id="legend"></svg>
-	      <div class="card-block text-center">
-		<div class="btn-group">
-		  <button type="button" class="btn btn-outline-secondary btn-sm" aria-label="selectAll" id="selectAll">
-		    Select All
-		  </button>
-		  <button type="button" class="btn btn-outline-secondary btn-sm" aria-label="selectAll" id="unselectAll">
-		    Unselect All
-		  </button>
-		</div>
-	      </div><!-- End button block-->
-	    </div><!-- End schematic and selector card-->
+	      </div><!-- End button toolbar-->
+	     
 	      
-	    <div class="card">
-	      <div class="card-body">
-		<div class="row">
-		  <div class="col col-xl-6">
-		    <h6 class="card-subtitle">Response strength</h6>
-		    <div class="d-flex flex-row align-items-center">
-		      <svg  width="40%" height="40">
-			<line class="legend-connector width-connector"  x1="0" y1="20" x2="100%" y2="20" stroke="gray" data-strength="1.08"/>
+	      <svg id="networkDiagram"></svg>
+	      
+	    </div><!-- End diagram card-->
+	  </div><!--End diagram col -->
+
+	  <div class="col-md-2"><!-- Legend panel-->
+	    <div class="card-column">
+	      <div class="card"><!-- Schematic and selector card-->
+		<h6 class="card-title">Neuropile selector</h6>
+		<svg id="legend"></svg>
+		<div class="card-block text-center">
+		  <div class="btn-group">
+		    <button type="button" class="btn btn-outline-secondary btn-sm" aria-label="selectAll" id="selectAll">
+		      Select All
+		    </button>
+		    <button type="button" class="btn btn-outline-secondary btn-sm" aria-label="selectAll" id="unselectAll">
+		      Unselect All
+		    </button>
+		  </div>
+		</div><!-- End button block-->
+	      </div><!-- End schematic and selector card-->
+	      
+	      <div class="card">
+		<div class="card-body">
+		  <div class="row">
+		    <div class="col col-xl-6">
+		      <h6 class="card-subtitle">Response strength</h6>
+		      <div class="d-flex flex-row align-items-center">
+			<svg  width="40%" height="40">
+			  <line class="legend-connector width-connector"  x1="0" y1="20" x2="100%" y2="20" stroke="gray" data-strength="1.08"/>
+			</svg>
+			<a class="p-1">1</a>
+		      </div >
+		      <div class="d-flex flex-row align-items-center">
+			<svg  width="40%" height="40">
+			  <line class="legend-connector width-connector" x1="0" y1="20"x2="100%" y2="20" stroke="gray" data-strength="0.58"/>
+			</svg>
+			<a class="p-1">0.5</a>
+		      </div>
+		      <div class="d-flex flex-row align-items-center">
+			<svg  width="40%" height="40">
+			  <line class="legend-connector width-connector" x1="0" y1="20" x2="100%" y2="20" stroke="gray" data-strength="0.18"/>
+			</svg>
+			<a class="p-1">0.1</a>
+		      </div>	
+		    </div>
+		    <!-- Reliability column-->
+		    <div class="col col-xl-6">
+		      <h6 class="card-subtitle">Response reliability</h6>
+		      <div class="d-flex flex-row align-items-center">
+			<svg  width="40%" height="10">
+			  <line class="legend-connector" stroke-opacity="0.74" x1="0%" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+			</svg>
+			<a class="p-1">1</a>
+		      </div >
+		      <div class="d-flex flex-row align-items-center">
+			<svg  width="40%" height="10">
+			  <line class="legend-connector" stroke-opacity="0.47" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+			</svg>
+			<a class="p-1">0.5</a>
+		      </div>
+		      <div class="d-flex flex-row align-items-center">
+			<svg  width="40%" height="10">
+			  <line class="legend-connector" stroke-opacity="0.3" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+			</svg>
+			<a class="p-1">0.25</a>
+		      </div>
+		      
+		      <div class="d-flex flex-row align-items-center">
+			<svg  width="40%" height="10">
+			  <line class="legend-connector" stroke-opacity="0.09" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
+			</svg>
+			<a class="p-1">0</a>
+		      </div>    
+		    </div><!-- End column -->
+		  </div>
+		</div>
+		<!-- Color code for connectors-->
+		<div class="card">
+		  <div class="card-body">
+		    <h6 class="card-subtitle">Response sign</h6>
+		    <div class="d-flex flex-wrap align-items-center">
+		      <svg  width="20%" height="10">
+			<line class="legend-connector excitatory-connector" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
 		      </svg>
-		      <a class="p-1">1</a>
+		      <a class="p-1">Excitation</a>
 		    </div >
 		    <div class="d-flex flex-row align-items-center">
-		      <svg  width="40%" height="40">
-			<line class="legend-connector width-connector" x1="0" y1="20"x2="100%" y2="20" stroke="gray" data-strength="0.58"/>
+		      <svg  width="20%" height="10">
+			<line class="legend-connector inhibitory-connector" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
 		      </svg>
-		      <a class="p-1">0.5</a>
+		      <a class="p-1">Inhibition</a>
 		    </div>
-		    <div class="d-flex flex-row align-items-center">
-		      <svg  width="40%" height="40">
-			<line class="legend-connector width-connector" x1="0" y1="20" x2="100%" y2="20" stroke="gray" data-strength="0.18"/>
-		      </svg>
-		      <a class="p-1">0.1</a>
-		    </div>	
-		  </div>
-	    <!-- Reliability column-->
-	    <div class="col col-xl-6">
-	      <h6 class="card-subtitle">Response reliability</h6>
-	      <div class="d-flex flex-row align-items-center">
-		<svg  width="40%" height="10">
-		  <line class="legend-connector" stroke-opacity="0.74" x1="0%" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
-		</svg>
-		<a class="p-1">1</a>
-	      </div >
-	      <div class="d-flex flex-row align-items-center">
-		<svg  width="40%" height="10">
-		  <line class="legend-connector" stroke-opacity="0.47" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
-		</svg>
-		<a class="p-1">0.5</a>
-	      </div>
-	      <div class="d-flex flex-row align-items-center">
-		<svg  width="40%" height="10">
-		  <line class="legend-connector" stroke-opacity="0.3" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
-		</svg>
-		<a class="p-1">0.25</a>
-	      </div>
-	      
-	      <div class="d-flex flex-row align-items-center">
-		<svg  width="40%" height="10">
-		  <line class="legend-connector" stroke-opacity="0.09" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
-		</svg>
-		<a class="p-1">0</a>
-	      </div>    
-	    </div><!-- End column -->
-		</div>
-	      </div>
-	    <!-- Color code for connectors-->
-	    <div class="card">
-	      <div class="card-body">
-		<h6 class="card-subtitle">Response sign</h6>
-		<div class="d-flex flex-wrap align-items-center">
-		  <svg  width="20%" height="10">
-		    <line class="legend-connector excitatory-connector" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
-		  </svg>
-		  <a class="p-1">Excitation</a>
-		</div >
-		<div class="d-flex flex-row align-items-center">
-		  <svg  width="20%" height="10">
-		    <line class="legend-connector inhibitory-connector" x1="0" y1="5" stroke-width="100%" x2="100%" y2="5" stroke="black"/>
-		</svg>
-		  <a class="p-1">Inhibition</a>
-		</div>
-		<p class="card-text"> Dashed lines indicate pairs predicted to not be connected by light level anatomy.</p>
-	      </div><!-- End card body -->
-	    </div><!-- End card-->
+		    <p class="card-text"> Dashed lines indicate pairs predicted to not be connected by light level anatomy.</p>
+		  </div><!-- End card body -->
+		</div><!-- End card-->
 		
-
-		
-	    <div class="card">
-	      <div class="card-body">
-		<h6 class="card-subtitle">Polarity</h6>
+		<div class="card">
+		  <div class="card-body">
+		    <h6 class="card-subtitle">Polarity</h6>
 		    <div class="d-flex flex-wrap align-items-center">
 		      <svg  width="20%" height="20">
 			<rect id="preLegend" x="0" y="0" width="100%" height="100%"/>
@@ -210,71 +205,60 @@
 		      </svg>
 		      <a class="p-1">Mixed</a>
 		    </div>
-	      </div>
-	    </div><!-- End Polarity card-->
-	  </div><!-- End card column-->
-	</div><!-- End legend panel-->
-      </div><!--End first row-->
-
-
-
-	   
-
-      <div class="row">
-	<div class="col-md-6">
-	  <div class="card">
-	  <div  style="width: 100%; position: relative" id="mPlotContainer">
-            <div style="position: absolute; top:0; left: 0; right: 0; bottom: 0" id="matrixPlot"></div>
-	  </div>
-	  </div>
-	  
-	  <div class="card-group">
-	    <div class="card">
-	      <div class="card-header">
-		<h5 id="neuron-title-pre">Pre</h5>
-	      </div>
-	      <div class="card-block">
-		<div class="row" id="neuron-description-pre">
-		  <div class="col-md-12" style="text-align:center">
-		    <svg style="margin: auto; display: block" id="neuron-drawing-pre"></svg>
 		  </div>
-
-		  <h6 id="neuron-full-name-pre">Pre</h6>
-
-		</div>
-		<h6 id="neuron-full-name-pre">Pre</h6>
-		
-		<h5>Drivers used</h5>
-		<div class="row" id="drivers-pre"></div>
-	      </div>
+		</div><!-- End Polarity card-->
+	      </div><!-- End card column-->
+	    </div><!-- End legend column-->
 	  </div>
-	    
+	</div><!--End first row-->
+	
+	<div class="row">
+	  <div class="col-md-6">
 	    <div class="card">
-	     <div class="card-header">
-		<h5 id="neuron-title-post">Post</h5>
-	      </div>
-	      <div class="card-block">
-		<div class="row" id="neuron-description-post">
-		  <div class="col-md-12" style="text-align:center">
-		    <svg style="margin: auto; display: block" id="neuron-drawing-post"></svg>
-		  </div>
+	      <div class="card-body">
+		<div  class="d-block"  id="mPlotContainer">
+		  <div style="position: absolute; top:0; left: 0; right: 0; bottom: 0" id="matrixPlot"></div>
 		</div>
-
-		  <h6 id="neuron-full-name-post">Post</h6>
-		
-		<h5>Drivers used</h5>
-		<div class="row" id="drivers-post"></div>
 	      </div>
 	    </div>
+	    
+	    <div class="card-group">
+	      <div class="card">
+		<div class="card-header">
+		  <h5 id="neuron-title-pre">Pre</h5>
+		</div>
+		<div class="card-block">
+		  <svg style="margin: auto; display: block" id="neuron-drawing-pre"></svg>
+		  
+		  <h6 id="neuron-full-name-pre">Pre</h6>
+		  
+		  <h5>Drivers used</h5>
+		  <div class="row" id="drivers-pre"></div>
+		</div>
+	      </div>
+	      
+	      <div class="card">
+		<div class="card-header">
+		  <h5 id="neuron-title-post">Post</h5>
+		</div>
+		<div class="card-block">
+		  <svg style="margin: auto; display: block" id="neuron-drawing-post"></svg>
+		  
+		  <h6 id="neuron-full-name-post">Post</h6>
+		
+		  <h5>Drivers used</h5>
+		  <div class="row" id="drivers-post"></div>
+		</div>
+	      </div>
+	    </div>
+	    
 	  </div>
 	  
-	</div>
-
 	
-		<!-- the plot -->
-		<div class="col-md-6">
-		  <div class="card" id="rawPlot-panel">
-		    <div class="card-header clearfix">
+	    <!-- the plot -->
+	    <div class="col-md-6">
+	      <div class="card" id="rawPlot-panel">
+		<div class="card-header clearfix">
 		      <h6 class="pull-left" id="rawPlot-title"><a class="neuronName preName">Pre</a> to <a class="neuronName postName">post</a></h6>
 		      <a class="pull-right" data-toggle="popover" data-container="body" data-placement="left"  data-content="Each color corresponds to a different fly (4 repeats per fly). Stimulation is indicated by the grayed area and consisted of 2ms light pulse trains delivered at 30Hz.">
 			About this plot
@@ -304,7 +288,6 @@
 		      <div style="width: 100%">
 			<div style="min-height: 100%" id="rawPlot"></div>
 		      </div>
-		<!--	<div  class="col" style="min-height: 100%" id="rawPlot"></div>-->
 		    </div>
 		    </div>
 		    
