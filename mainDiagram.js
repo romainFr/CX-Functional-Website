@@ -328,14 +328,12 @@ function drawLink(table_line,summary_line){
   
     link.node.setAttribute("stroke-opacity",link_alpha)
     //.node.setAttribute("fill-opacity",link_alpha)
-    
-    let title = Snap.parse('<title>'+table_line.cellPair+
-                           '&#13Normalized response : '+Number(table_line.integNorm).toFixed(3)+
-                           '&#13Normalized response 95% CI : '+Number(table_line.integNormCILow).toFixed(3)+' , '
-                           +Number(table_line.integNormCIUp).toFixed(3)+
-                           '&#13Repeats correlations : '+Number(table_line.repeats_corr).toFixed(3)+
-    			   '&#13Runs correlations : '+Number(table_line.between_runs_corr).toFixed(3)+'</title>')  ;
-
+          let title = Snap.parse('<title>'+table_line.cellPair+
+			    '&#13Normalized distance : '+Number(table_line.distanceNorm).toFixed(3)+
+                           '&#13Scaled normalized integral : '+Number(table_line.integNormScaled).toFixed(3)+
+                           '&#13Within-flies correlations : '+Number(table_line.repeats_corr).toFixed(3)+
+    			   '&#13Between-flies correlations : '+Number(table_line.between_runs_corr).toFixed(3)+'</title>')  ;
+  
     
     g.append(link_outline);  
     g.append(link);

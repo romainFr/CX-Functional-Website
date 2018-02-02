@@ -58,7 +58,11 @@ function neuronClicked(neuron_type,position="pre"){//Remove previously highlight
 	$(".connector:not(path[data-"+other_position+"='"+other_neuron.data("neuron")+"'])").toggleClass("unselected_by_neuron")
 	$("#rawPlot-panel").addClass("unactive-plot");
 	$(".connector").removeClass("active-connector");
-	updateScatterMatrix(neuron_type,other_neuron.data("neuron"));
+	if (position == "pre"){
+	    updateScatterMatrix(other_neuron.data("neuron"),neuron_type);
+	}else{
+	    updateScatterMatrix(neuron_type,other_neuron.data("neuron"));
+	};
     }
     current_neuron.toggleClass("neuron-selected-"+position)
     
