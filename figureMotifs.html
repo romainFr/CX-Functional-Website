@@ -176,29 +176,73 @@
       grid-area: leg4
       }
       
-      .mat{
-      grid-area: mat
+.titleAi{
+      grid-area: titleAi
       }
 
-      .letterTitle{
-      grid-area: title
+      .titleAii{
+      grid-area: titleAii
+      }
+      .titleAiii{
+      grid-area: titleAiii
       }
 
-.titleB{
+      .titleB{
       grid-area: titleB
       }
+
+       .titleC{
+      grid-area: titleC
+      }
+.titleDi{
+      grid-area: titleDi
+      }
+
+      .titleDii{
+      grid-area: titleDii
+      }
+
+      
+.diagramAi{
+      grid-area: diagramAi
+      }
+
+      .diagramAii{
+      grid-area: diagramAii
+      }
+      .diagramAiii{
+      grid-area: diagramAiii
+      }
+
+      .diagramB{
+      grid-area: diagramB
+      }
+
+       .diagramC{
+      grid-area: diagramC
+      }
+.diagramDi{
+      grid-area: diagramDi
+      }
+
+      .diagramDii{
+      grid-area: diagramDii
+      }
+
       
       .container{
       display: grid;
-      grid-template-columns: 100px 200px 100px 200px 90px 110px;
-      grid-template-rows: 20px auto auto 20px 800px;
+      grid-template-columns: 100px 100px 100px 100px 100px 100px 90px 110px;
+      grid-template-rows: 20px auto 20px auto 20px auto;
       align-items: center;
       grid-template-areas:
-      "title . . . . ."
-      "draw draw draw draw draw draw"
-      "subtitle1 leg1 subtitle2 leg2 subtitle3 leg3 "
-      "titleB . . . . ."
-      "mat mat mat mat mat mat"
+      "titleAi . titleAii . titleAiii . . ."
+      "diagramAi diagramAi diagramAii diagramAii diagramAiii diagramAiii diagramAiii diagramAiii"
+      "titleB . . . . . titleC ."
+      "diagramB diagramB diagramB diagramB diagramB diagramB diagramC diagramC"
+      "titleDi . . . titleDii . . ."
+      "diagramDi diagramDi diagramDi diagramDi diagramDii diagramDii diagramDii diagramDii"
+      "subtitle1 leg1 leg1 subtitle2 leg2 leg2 subtitle3 leg3 "
       }
       
     </style>
@@ -210,11 +254,35 @@
     <!-- The navbar-->
     <main>
       <section class="container" id="MainPanel">
-	<font size="3" class="letterTitle">A</font>
-	  <div class="diagram"><!-- Diagram panel-->
-	      <svg id="networkDiagram"></svg>
+	<font size="3" class="titleAi">Ai</font>
+	<font size="3" class="titleAii">Aii</font>
+	<font size="3" class="titleAiii">Aiii</font>
+	  <div class="diagramAi"><!-- Diagram panel-->
+	      <svg id="networkDiagramAi"></svg>
 	  </div><!--End diagram col -->
-
+	  <div class="diagramAii"><!-- Diagram panel-->
+	      <svg id="networkDiagramAii"></svg>
+	  </div><!--End diagram col -->
+	  <div class="diagramAiii"><!-- Diagram panel-->
+	      <svg id="networkDiagramAiii"></svg>
+	  </div><!--End diagram col -->
+	  <font size="3" class="titleB">B</font>
+	  <font size="3" class="titleC">C</font>
+	  <div class="diagramB"><!-- Diagram panel-->
+	      <svg id="networkDiagramB"></svg>
+	  </div><!--End diagram col -->
+	  <div class="diagramC"><!-- Diagram panel-->
+	      <svg id="networkDiagramC"></svg>
+	  </div><!--End diagram col -->
+	  <font size="3" class="titleDi">Di</font>
+	  <font size="3" class="titleDii">Dii</font>
+	  <div class="diagramDi"><!-- Diagram panel-->
+	      <svg id="networkDiagramDi"></svg>
+	  </div><!--End diagram col -->
+	  <div class="diagramDii"><!-- Diagram panel-->
+	      <svg id="networkDiagramDii"></svg>
+	  </div><!--End diagram col -->
+	  
 	  <h6 class="subtitle1">Response strength :</h6>
 	  <div class="legend legend1">
 	    <div class="line1">
@@ -315,277 +383,21 @@
     <script type="text/javascript" src="summaryData.js"></script>
     <script type="text/javascript" src="superSummary.js"></script>
     <script type="text/javascript" src="variableDefs.js"></script>
-    <script>
-     
-function neuronClicked(neuron_type,position="pre"){//Remove previously highlighted connections and toggle the current neuron
-    console.log(neuron_type)
-    let current_neuron = $("g[id='Full-"+neuron_type+"']");
-    let selected = current_neuron.hasClass("neuron-selected-"+position);
-    let positions = ["pre","post"];
-    let other_position = positions.filter(function(x){return(x!==position)})[0];
-   // current_neuron.removeClass("neuron-selected-"+other_position);
-    let other_neuron = $(".neuron-selected-"+other_position);
-    let driv = DRIVERS[neuron_type];
-    
-    if (!selected){
-	$('#selected-'+position).text(neuron_type);
-	$("#neuron-title-"+position).text(NEURON_TYPES[neuron_type].short_name);
-	$("#neuron-full-name-"+position).text("Full name : " + neuron_type);
-	$("."+position+"Name").text(NEURON_TYPES[neuron_type].short_name);
-	$(".neuron").not(current_neuron).removeClass("neuron-selected-"+position);
-    }else{
-	$('#selected-'+position).text("Neuron type");
-	$("#neuron-title-"+position).text(position);
-	$("#neuron-full-name-"+position).text("Full name : ");
-	$("."+position+"Name").text(position);
-    };
-    
-    $(".selected_by_neuron").removeClass("selected_by_neuron")
-    $(".unselected_by_neuron").removeClass("unselected_by_neuron")
-    
-    // We have to use the selected attribute because some neurons have connections in common.
-    let neuron_connections = $("path[data-"+position+"='"+neuron_type+"']");
-    
-    if ((other_neuron.length==1) & !selected){
-	if (position == "pre"){
-	    var current_connection = neuron_type+"-to-"+other_neuron.data("neuron");
-	    updateScatterMatrix(other_neuron.data("neuron"),neuron_type);
-	}else{
-	    var current_connection = other_neuron.data("neuron")+"-to-"+neuron_type;
-	    updateScatterMatrix(neuron_type,other_neuron.data("neuron"));
-	};
-	if (SUMMARY_DATA.hasOwnProperty(current_connection)){
-	    connector_select(current_connection)
-	}else{
-	    $(".connector").removeClass("active-connector");
-	};
-	
-    }else if ((other_neuron.length==0) & !selected){
-	neuron_connections.toggleClass("selected_by_neuron")
-	neuron_connections.removeClass("unselected_by_neuron")
-	$(".connector:not(path[data-"+position+"='"+neuron_type+"'])").toggleClass("unselected_by_neuron")
-	$(".connector").removeClass("active-connector");
-    }else if ((other_neuron.length==1) & selected){
-	let other_connections = $("path[data-"+other_position+"='"+other_neuron.data("neuron")+"']")
-	other_connections.toggleClass("selected_by_neuron")
-	other_connections.removeClass("unselected_by_neuron")
-	$(".connector:not(path[data-"+other_position+"='"+other_neuron.data("neuron")+"'])").toggleClass("unselected_by_neuron")
-	$(".connector").removeClass("active-connector");
-	updateScatterMatrix(other_neuron.data("neuron"),neuron_type);
-    }
-    current_neuron.toggleClass("neuron-selected-"+position)
-    
-    $(".single_neuron_drawing-"+position).remove();
-
-    $(".neuropile-neuron-"+position).removeClass("neuropile-diagram-pre neuropile-diagram-post");
-    
-    if (!selected){
-	for (let np of POSSIBLE_NEUROPILES){
-	    if (NEURON_TYPES[neuron_type].pre.includes(np)){
-		$(".neuropile-neuron-"+position+"[np='"+np+"']").addClass("neuropile-diagram-pre");};
-	    if  (NEURON_TYPES[neuron_type].post.includes(np)){
-		$(".neuropile-neuron-"+position+"[np='"+np+"']").addClass("neuropile-diagram-post");};
-	}
-	
-	let neuron = s.select("g[id='"+neuron_type+"']");
-	let neuronD = neuron.clone().addClass("single_neuron_drawing-"+position+" single_neuron");
-    
-	let $driversDiv = $("<div>",{class: "row",id: "drivers-"+position});
-    
-	for (dr in driv){
-	    let lk = FLY_LIGHT+driv[dr];
-	    let $driversIn = $("<div>",{class: "col"});
-	    let $driverTitle = $("<h6>",{class: "card-title"}).append(driv[dr])
-	    let $driverComment = $("<h6>").append();
-	    $driversIn.append($driverTitle);
-	    // Put the link to the gal4 collection if it's a gen1 gal4
-	    if ((driv[dr].includes("SS") | driv[dr].includes("-") | driv[dr].includes("VT")) == false){
-		let $linkFly = $("<a>",{class: "card-link",href: lk, target: "_blank"});
-		$linkFly.append("Janelia collection link");
-		$driversIn.append($linkFly);
-	};
-	    $driversDiv.append($driversIn)
-	};
-	$("#drivers-"+position).replaceWith($driversDiv)
-    };
-}
-
-// A convenience function that adds/remove a marker in the matrix plot at given location
-function updateScatterMatrix(x,y){
-		let matdata = document.getElementById("matrixPlot").data
-    if ((matdata[3].x[0] == x) & (matdata[3].y[0] == y)){
-	matdata[3].x = [];
-	matdata[3].y = [];
-    }else{
-	matdata[3].x = [x];
-	matdata[3].y = [y];
-    };
-    Plotly.update('matrixPlot',matdata,matlayout)
-}
-
-function neuronClickedFromDiagram(event){
-    let neuron_type = $(this).data("neuron")
-    if (event.ctrlKey || event.metaKey) {
-	neuronClicked(neuron_type,"post")
-    }else{
-	neuronClicked(neuron_type,"pre")
-    };
-}
-      
-      function connector_select(connection_name){
-    let connection = SUMMARY_DATA[connection_name]
-    let connector = $("path[id='"+connection_name+"']")
-    $(".connector").not(connector).removeClass("active-connector");
-    
-    connector.addClass("active-connector");
-}
-
-// Events triggered when clicking a connector
-function connectorClicked(connection_name){
-    console.log(connection_name)
-    let connector = $("path[id='"+connection_name+"']");
-    let preNeuron = $("g[id='Full-"+connector.data("pre")+"']");
-    let postNeuron = $("g[id='Full-"+connector.data("post")+"']");
-    if (preNeuron.hasClass('neuron-selected-pre') == postNeuron.hasClass('neuron-selected-post')){
-	neuronClicked(preNeuron.data("neuron"),"pre");
-	neuronClicked(postNeuron.data("neuron"),"post");
-    }else{
-	if (preNeuron.hasClass('neuron-selected-pre')){
-	    neuronClicked(postNeuron.data("neuron"),"post");
-	}else{
-	    neuronClicked(preNeuron.data("neuron"),"pre");
-	};
-    };
-}
-
-
-function connectorClickedFromDiagram(event){
-    let conn_name =  $(this).data("link");
-    let pre = $(this).data("pre");
-    let post = $(this).data("post");
-    connectorClicked(conn_name);
-}
-
-$(document).on("click",".connector-clickable",connectorClickedFromDiagram);
-
-// Both can also be triggered from the matrix plot
-$('#matrixPlot').on('plotly_click',function(event,data){
-    connectorClicked(data.points[0].y+"-to-"+data.points[0].x);
-});
-      	/// Matrix plot layout
-let matlayout = {
-    width: 800,
-     height: 800,
-    xaxis: {
-	title: "Post-synaptic candidate",
-	autorange: true,
-	tickvals: Object.keys(NEURON_TYPES),
-	ticktext: Object.keys(NEURON_TYPES).map(function(n){return(NEURON_TYPES[n]["short_name"])})
-    },
-    yaxis: {
-	title: "Pre-synaptic candidate",
-	autorange: true,
-	tickvals: Object.keys(NEURON_TYPES),
-	ticktext: Object.keys(NEURON_TYPES).map(function(n){return(NEURON_TYPES[n]["short_name"])})
-    },
-    margin: {
-	b:20,
-	t:20,
-		l:100,
-		r: 0},
-    hovermode: 'closest',
-    legend: {orientation: "h",
-	     x: 0,
-	     y: -0.13
-	    }
-    
-			       };
-			       /// Matrix plot
-function makeMatrixPlot(metric){
-    let matstat= Object.keys(NEURON_TYPES).map(function(pre){
-	return(Object.keys(NEURON_TYPES).map(function(post){
-	    if(SUPER_SUMMARY[pre+"-to-"+post] === undefined){
-		return(NaN)
-	    }else{return(SUPER_SUMMARY[pre+"-to-"+post][metric])};
-	}));	
-    });
-    
-    let statVals = Object.values(SUPER_SUMMARY).map(function(st){return(st[metric])})
-    var midPoint = -Math.min(...statVals)/(Math.max(...statVals)-Math.min(...statVals))
-
-    let overlaps = Object.keys(SUPER_SUMMARY).map(function(k){
-	if (SUPER_SUMMARY[k]["expType"]==="Overlapping"){
-	    return(k.split("-to-"));
-	};
-    });
-    
-    overlaps = overlaps.filter(function(item){
-	return typeof item ==='object';  
-    });
-
-    let overlapsY = overlaps.map(function(o){return(o[0])});
-    let overlapsX = overlaps.map(function(o){return(o[1])});
-
-    var matdata = [
-	{
-	    z: matstat,    // The heatmap
-	    x: Object.keys(NEURON_TYPES),
-	    y: Object.keys(NEURON_TYPES),
-	    colorscale: [[0,INH_COLOR],[midPoint,'rgb(217,217,217)'],[1,EXC_COLOR]],
-	    type: 'heatmap',
-	    hoverinfo: "y+x+z"
-	},
-	{// The identity line
-	    x: Object.keys(NEURON_TYPES),
-	    y: Object.keys(NEURON_TYPES),
-	    type: "scatter",
-	    mode:"lines",
-            line: {dash: 'dash',
-		   color: 'lightgray'},
-	    showlegend: false,
-	    hoverinfo: 'skip'
-	},
-	{// The overlaps marker
-	    x: overlapsX,
-	    y:overlapsY,
-	    type: "scatter",
-	    mode: "markers",
-	    marker: {
-		color: HGH_COLOR,
-	//	size: 14,
-		symbol: "square-open"
-	    },
-	    name: "Anatomical overlap",
-	    hoverinfo: 'skip'
-	},
-	{ x: [],     // The marker for the selected pair
-	  y:[],
-	  type: "scatter",
-	  mode: "markers",
-	  marker: {
-	      color: HGH_COLOR,
-          //    size: 10
-	  },
-	  showlegend: false,
-	  hoverinfo: 'skip'
-	}
-    ];
-    
-    Plotly.newPlot('matrixPlot',matdata,matlayout,{displaylogo: false})
-}
-      
-      
+    <script>      
       //sT is the full drawing
-      var sT = Snap("#networkDiagram");
-      var s = sT.group();
+      var AiT = Snap("#networkDiagramAi");
+      var Ai = AiT.group();
+      const DIAGRAM_WIDTH = 1700;
+      const DIAGRAM_HEIGHT = 1700;
+      const SCALE_LINKS = 30;
+      function prepareDiag(sT,s){
       s.rect()
-    .attr({width: "100%",
+      .attr({width: "100%",
 	   height: "100%",
 	   fill: "white"});
 
-      const DIAGRAM_WIDTH = 6350;
-      const DIAGRAM_HEIGHT = 3000;
-      const SCALE_LINKS = 30;
+      
+      
       sT.attr({viewBox: [0,0,DIAGRAM_WIDTH,DIAGRAM_HEIGHT]});
 
       //// DEFINING MARKERS FOR LINKS /////////////////
@@ -616,8 +428,11 @@ function makeMatrixPlot(metric){
       "id": "arrow-hidden",
       "fill": "LightGray"
       }).toDefs();
+      }
 
-      let scale_factor = (sT.node.getBoundingClientRect().height/DIAGRAM_HEIGHT)//*(199/strLegend.node.getBoundingClientRect().width);
+      prepareDiag(AiT,Ai)
+      
+      let scale_factor = (AiT.node.getBoundingClientRect().height/DIAGRAM_HEIGHT)//*(199/strLegend.node.getBoundingClientRect().width);
       console.log(scale_factor)
       
       $(".legend-connector.width-connector").map(function(){
@@ -625,13 +440,13 @@ function makeMatrixPlot(metric){
       $(this).css("stroke-width",$(this).data("virtualwidth"));
       })
 
-      Snap.load("images/CXSchematicAnnotatedWithNeurons.svg",function(f){
+  Snap.load("images/CXSchematicAnnotatedWithNeurons.svg",function(f){
     // This is the neuropile drawing, which has some attributes we'll need
     const CX = f.select("g[id='central complex']");
     const CX_TRANS = CX.attr("transform");
     let neuropile_fragments = new Map;
     for (let np in NEUROPILES_FULL_NAMES){
-        let myNp = s.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
+        let myNp = Ai.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
         neuropile_fragments[NEUROPILES_FULL_NAMES[np]]=
             Snap("g[id='"+NEUROPILES_FULL_NAMES[np]+"']").toDefs();
     };
@@ -642,39 +457,29 @@ function makeMatrixPlot(metric){
     const XCOLU = 800;
     const YCOLU = 1000;
 
-    drawNeuronClass(f,"EB columnar",neuropile_fragments,CX_TRANS,[XCOLU,YCOLU],[550,100]);
+      drawNeuron(f,Ai,"PBG1-8.b-EBw.s-DV_GA.b",neuropile_fragments,CX_TRANS,[700,100])
     
-    drawNeuronClass(f,"FB columnar",neuropile_fragments,CX_TRANS,[XCOLU+550*4+100,YCOLU],[550,100]);
-    
-    drawNeuronClass(f,"Ring neuron",neuropile_fragments,CX_TRANS,[XCOLU-800,YCOLU+700],[-80,-300]);
-    
-    drawNeuronClass(f,"PB input",neuropile_fragments,CX_TRANS,[XCOLU+550*4,YCOLU-900],[1000,0]);
-    
-    drawNeuronClass(f,"PB interneuron",neuropile_fragments,CX_TRANS,[XCOLU+500,YCOLU-700],[600,0]);
-
-    drawNeuronClass(f,"LAL-NO",neuropile_fragments,CX_TRANS,[XCOLU+550*2,YCOLU+900],[750,80]);
-
-    drawNeuronClass(f,"LAL-IN",neuropile_fragments,CX_TRANS,[XCOLU+550*8+350,YCOLU+600],[800,0]);
-    
-    drawNeuronClass(f,"FB input",neuropile_fragments,CX_TRANS,[XCOLU+550*8+300,YCOLU-500],[100,500]);
-  
+      drawNeuron(f,Ai,"EBORP O-I-GA-Bulb",neuropile_fragments,CX_TRANS,[0,400])
+      drawNeuron(f,Ai,"EBIRP I-O-LAL.s",neuropile_fragments,CX_TRANS,[50,700])
+     
+      
     // Draw the links
     Object.keys(SUMMARY_DATA).forEach(function(pair){
 	let d = SUMMARY_DATA[pair]["20"];
 	d.cellPair = pair;
 	let summ = SUPER_SUMMARY[pair];
 	
-        if ((s.select("g[id='"+d.preNeuron+"']") != null) & (s.select("g[id='"+d.postNeuron+"']") != null)){//& (d.preNeuron != d.postNeuron)){
-            drawLink(d,summ);
+        if ((Ai.select("g[id='"+d.preNeuron+"']") != null) & (Ai.select("g[id='"+d.postNeuron+"']") != null)){//& (d.preNeuron != d.postNeuron)){
+            drawLink(d,summ,Ai);
 	};	
       });
       ////////END DRAWING/////////////////////////
 });
 
       /// FUNCTIONS DEFINITIONS //////
-function drawNeuron(drawing,parent,neuron_type,frags,CX_TRANS,position){
+function drawNeuron(drawing,diag,neuron_type,frags,CX_TRANS,position){
     // Draw the neuron :
-    g = s.group().attr({transform: "translate("+position[0]+","+position[1]+")",
+    g = diag.group().attr({transform: "translate("+position[0]+","+position[1]+")",
                         id: "Full-"+neuron_type,
 		        "data-neuron": neuron_type//,
 			//"data-selected": false
@@ -691,7 +496,7 @@ function drawNeuron(drawing,parent,neuron_type,frags,CX_TRANS,position){
     
     let neuronBox = g.getBBox();
     let neuronTrans = g.transform().localMatrix.invert();
-    let neuronBoxRect=s.rect(neuronTrans.x(neuronBox.x,neuronBox.y),neuronTrans.y(neuronBox.x,neuronBox.y),neuronBox.w,neuronBox.h,30,30);
+    let neuronBoxRect=diag.rect(neuronTrans.x(neuronBox.x,neuronBox.y),neuronTrans.y(neuronBox.x,neuronBox.y),neuronBox.w,neuronBox.h,30,30);
 
     g.prepend(neuronBoxRect);
 
@@ -738,7 +543,7 @@ function drawNeuronClass(drawing,supertype,frags,CX_TRANS,start_position,positio
     let class_g = s.group().attr({id: supertype});
     for (let nr of SUPERTYPES[supertype]){
 	if (drawing.select("g[id='"+nr+"']") != null){
-            var neuro = drawNeuron(drawing,class_g,nr,frags,CX_TRANS,start_position);
+            var neuro = drawNeuron(drawing,nr,frags,CX_TRANS,start_position);
             class_g.append(neuro);
             s.append(class_g);
          for (j in [0,1]){start_position[j]=start_position[j]+position_offset[j]};
@@ -755,25 +560,25 @@ function guessConnectionLocation(preNeuron,postNeuron){
 }
 
 //function drawLink(preNeuron,postNeuron,strength,reliability){
-function drawLink(table_line,summary_line){
+function drawLink(table_line,summary_line,diag){
    
     let connection_loc = guessConnectionLocation(NEURON_TYPES[table_line.preNeuron],
 						 NEURON_TYPES[table_line.postNeuron]);
 
-    let start_neuron = s.select("g[id='Full-"+table_line.preNeuron+"']");
-    let end_neuron = s.select("g[id='Full-"+table_line.postNeuron+"']");
+    let start_neuron = diag.select("g[id='Full-"+table_line.preNeuron+"']");
+    let end_neuron = diag.select("g[id='Full-"+table_line.postNeuron+"']");
     
     
     // Firefox doesn't return anything with the Snap getBBox function... Apparently Firefox is respecting the svg specifications better
     // so we change to this "safe version"
-    let start_box = s.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").node.getBBox();
+    let start_box = diag.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").node.getBBox();
     let start_points=[
 	{x: start_box.x+start_box.width, y:start_box.y+start_box.height/2},
 	{x: start_box.x, y:start_box.y+start_box.height/2},
         {x: start_box.x+start_box.width/2, y:start_box.y},
         {x: start_box.x+start_box.width/2, y:start_box.y+start_box.height}
     ];
-    let end_box = s.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").node.getBBox();
+    let end_box = diag.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").node.getBBox();
     let end_points=[
         {x: end_box.x+end_box.width, y:end_box.y+end_box.height/2},
 	{x: end_box.x, y:end_box.y+end_box.height/2},
@@ -781,9 +586,9 @@ function drawLink(table_line,summary_line){
         {x: end_box.x+end_box.width/2, y:end_box.y+end_box.height}
     ];
     let start_transfo = start_neuron.transform()
-        .localMatrix.add(s.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").transform().localMatrix);
+        .localMatrix.add(diag.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").transform().localMatrix);
     let end_transfo = end_neuron.transform()
-        .localMatrix.add(s.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").transform().localMatrix);
+        .localMatrix.add(diag.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").transform().localMatrix);
     
     
     start_points = start_points.map(st => ({x: start_transfo.x(st.x,st.y),
@@ -811,13 +616,13 @@ function drawLink(table_line,summary_line){
     
     let link_alpha = Math.log(Number(table_line.between_runs_corr)+1.1);
     
-    let g = s.group().attr({
+    let g = diag.group().attr({
 	"data-link": table_line.cellPair,
 	"data-pre": table_line.preNeuron,
 	"data-post": table_line.postNeuron
     });
 
-    let link = s.path(linkStr).attr({
+    let link = diag.path(linkStr).attr({
 	id: table_line.cellPair,
 	"connection_location": connection_loc,
 	"data-pre": table_line.preNeuron,
@@ -832,7 +637,7 @@ function drawLink(table_line,summary_line){
         g.addClass("virtual-connector")
     };
     
-    let link_outline = s.path(linkStr)
+    let link_outline = diag.path(linkStr)
         .attr({id: table_line.cellPair+"_outline",
 	       stroke: "transparent",    
                "stroke-width": 50
@@ -869,15 +674,9 @@ function drawLink(table_line,summary_line){
     g.append(title);
 			       }
 
-			       /// Plot the matrix plot
-			       makeMatrixPlot("distanceNorm");
-			       window.onresize = function(){
-    
-    Plotly.Plots.resize($("#matrixPlot").get()[0])
-    Plotly.relayout("matrixPlot",matlayout)
-}
-			       Plotly.Plots.resize($("#matrixPlot").get()[0])
-    Plotly.relayout("matrixPlot",matlayout)      
+		
+			  
+   
     </script>
 
    
