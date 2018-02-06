@@ -28,22 +28,42 @@
  
     <!-- The navbar-->
     
-    <nav class="navbar navbar-outline-secondary navbar-toggleable-md">
+    <header class="navbar flex-column flex-md-row bd-navbar">
 
        
       <!--    <a class="navbar-brand" href="#">Project name</a>-->
-      <h3 class="navbar-brand float-left">The drosophila central complex functional connectivity atlas</h3>
       
-      <div id="navbar" class="collapse navbar-collapse float-right">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#howto">How to</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contact">References</a></li>
+      <span class="navbar-brand mb-0 h3">The drosophila central complex functional connectivity atlas</span>
+     
+    
+      
+        <ul class="navbar-nav my-2">
+            <li class="nav-item">
+	      <a class="nav-link mr-md-2" href="https://github.com/romainFr/CX-Functional-Website" target="_blank" rel="noopener" aria-label="GitHub">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 499.36" focusable="false" style="display: inline-block; width: 1rem; height: 1rem;vertical-align: text-top;">
+		  <title>GitHub repository for this website</title>
+		  <path d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z" fill="gray" fill-rule="evenodd"></path>
+		</svg>
+	      </a>
+	    </li>
         </ul>
-      </div><!--/.nav-collapse -->
-    </nav>
+   
+    </header>
     
     <main>
+
+      <section class="container-fluid" id="Description">
+	<div class="row">
+	  <div class="card col">
+	    <div class="card-body">
+	      <div class="card-text">
+		This website contains data associated with the paper <a href="https://www.authorea.com/155729/_TsHpd9reMuWijjossgt6Q" target="_blank">"Building a functional connectome of the Drosophila central complex" (Franconville, Beron and Jayaraman)</a>. Raw data is available as an Open Science Foundation project <a href="https://osf.io/vsa3z/" target="_blank">here</a>. There's also a <a href="https://github.com/romainFr/CX-Functional-Analysis" target="_blank">Github repository</a> for the analysis code. Code notebooks can be run online with Binder <a href="https://mybinder.org/v2/gh/romainFr/CX-Functional-Analysis/master" target="_blank">here</a>.
+	      </div>
+	    </div>
+	  </div>
+	</div>
+      </section>
+      
       <section class="container-fluid" id="MainPanel">
 	<div class="row no-gutters">
 	  <div class="col-md-10"><!-- Diagram panel-->
@@ -70,7 +90,10 @@
 		  <div id="neuron-dd-post" class="dropdown-menu" aria-labelledby="dropdownMenu2"></div>
 		</form>
 
-		<p class="float-right">Click (or ctrl/cmd click) on neurons to toggle pre (or post) synaptic candidate.</p>
+		<a class="btn btn-outline-secondary float-right" data-toggle="popover" data-container="body" data-placement="left"  data-content="Click on a neuron to select a pre-synaptic candidate. Ctrl-click to select a post-synaptic candidate. Selecting both a pre and post candidate, clicking on a link, or clicking a point in the matrix displays the experimental records for this pair.">
+		    Navigation instructions
+		  </a>
+
 		
 		<div class="btn-group" role="group" aria-label="..."><!-- Diagram controls -->
 		  <button type="button" class="btn btn-outline-secondary" aria-label="zoom in" id="zoomIn">
@@ -259,75 +282,70 @@
 	    <div class="col-md-6">
 	      <div class="card" id="rawPlot-panel">
 		<div class="card-header clearfix">
-		      <h6 class="pull-left" id="rawPlot-title"><a class="neuronName preName">Pre</a> to <a class="neuronName postName">post</a></h6>
-		      <a class="pull-right" data-toggle="popover" data-container="body" data-placement="left"  data-content="Each color corresponds to a different fly (4 repeats per fly). Stimulation is indicated by the grayed area and consisted of 2ms light pulse trains delivered at 30Hz.">
-			About this plot
-		      </a>
-		    </div>
-		    <div class="card-block">
-		    <div class="row" id="plot-controls">
-		      <div class="col-md-6">  
-			<div class="btn-group" role="group" data-toggle="buttons" id="raw-to-avg"> <!--Supplement an id here instead of using 'name'-->
-			  <label class="btn btn-outline-secondary active"><input type="radio" name="trace" id="raw" checked>Raw traces</label> 
-			  <label class="btn btn-outline-secondary"><input type="radio" name="trace" id="avg">Fly averages</label>
-			</div>
+		  <h6 class="pull-left" id="rawPlot-title"><a class="neuronName preName">Pre</a> to <a class="neuronName postName">post</a></h6>
+		  <a class="pull-right" data-toggle="popover" data-container="body" data-placement="left"  data-content="Each color corresponds to a different fly (4 repeats per fly). Stimulation is indicated by the grayed area and consisted of 2ms light pulse trains delivered at 30Hz.">
+		    About this plot
+		  </a>
+		</div>
+		<div class="card-block">
+		  <div class="row" id="plot-controls">
+		    <div class="col-md-6">  
+		      <div class="btn-group" role="group" data-toggle="buttons" id="raw-to-avg"> <!--Supplement an id here instead of using 'name'-->
+			<label class="btn btn-outline-secondary active"><input type="radio" name="trace" id="raw" checked>Raw traces</label> 
+			<label class="btn btn-outline-secondary"><input type="radio" name="trace" id="avg">Fly averages</label>
 		      </div>
-	    
-		      <div class="col-md-6">
-			Number of pulses :
-			<div class="btn-group" role="group" data-toggle="buttons" id="pulses"> <!--Supplement an id here instead of using 'name'-->
-			  <label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=1>1</label> 
-			  <label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=5>5</label>
-			  <label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=10>10</label> 
-			  <label class="btn btn-outline-secondary active"><input type="radio" name="pulses" value=20 checked>20</label>
-			  <label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=30>30</label>
-			</div>
-		      </div>
-		    </div>
-		    <div class="row">
-		      <div style="width: 100%">
-			<div style="min-height: 100%" id="rawPlot"></div>
-		      </div>
-		    </div>
 		    </div>
 		    
-		    <div class="row">
-		      <div class="col">
-			<h6 class="card-title">Response to baseline relationship</h6>
-			<div style="width: 100%">
-			  <div style="min-height: 100%" id="baselinePlot"></div>
-			</div>
-		      </div>
-		      <div class="col">
-			<h6 class="card-title">Dose response curve</h6>
-			<div style="width: 100%">
-			  <div  style="min-height: 100%" id="dosePlot"></div>
-			</div>
+		    <div class="col-md-6">
+		      Number of pulses :
+		      <div class="btn-group" role="group" data-toggle="buttons" id="pulses"> <!--Supplement an id here instead of using 'name'-->
+			<label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=1>1</label> 
+			<label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=5>5</label>
+			<label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=10>10</label> 
+			<label class="btn btn-outline-secondary active"><input type="radio" name="pulses" value=20 checked>20</label>
+			<label class="btn btn-outline-secondary"><input type="radio" name="pulses" value=30>30</label>
 		      </div>
 		    </div>
-	  	    
-		  </div>  
+		  </div>
+		  <div class="row">
+		    <div style="width: 100%">
+		      <div style="min-height: 100%" id="rawPlot"></div>
+		    </div>
+		  </div>
 		</div>
+		
+		<div class="row">
+		  <div class="card col">
+		    <h6 class="card-title">Response to baseline relationship</h6>
+		    <div style="width: 100%">
+		      <div style="min-height: 100%" id="baselinePlot"></div>
+		    </div>
+		  </div>
+		  <div class="card col">
+		    <h6 class="card-title">Dose response curve</h6>
+		    <div style="width: 100%">
+		      <div  style="min-height: 100%" id="dosePlot"></div>
+		    </div>
+		  </div>
+		</div>
+		
+		
+		<div class="row">
+		  <div class="card col">
+		    <h5 class="card-title">Statistics</h5>
+		    <div class="card-body">
+		      <div class="card-text" id="numbers"></div>
+		    </div>
+		      </div>
+		</div>
+		
+		    
+	      </div>  
+	    </div>
 		
       </div>
       <!-- end plot -->
 
-</section>
-
-<section class="container-fluid" id="howto">
-  <div class="row">
-    <div class="col">
-      <div class="card">
-	<div class="card-header">
-	  <h5>Statistics</h5>
-	</div>
-	<div class="card-block">
-	  <div class= card-text id="numbers">
-	  </div>
-	</div>
-      </div>
-    </div>
-  </div>
 </section>
 
 </main>
