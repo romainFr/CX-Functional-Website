@@ -69,27 +69,30 @@
 	  <div class="col-md-10"><!-- Diagram panel-->
 	    <div class="card"><!-- Diagram card-->
 	      <div class="btn-toolbar justify-content-around" role="toolbar" aria-label="...">
-		<!--<div class="btn-group">-->
+		<div class="btn-group">
 		<form class="form-inline">
 		  <label class="btn btn-outline-secondary" aria-label="Filter" id="thresh">
 		    <input type="checkbox" id="threshold">P&lt;0.01
 		  </label>
+		</form>
+		<form>
 		  <!--	</div><div class="btn-group">-->
-		  <button class="btn btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		  <button class="btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		      <span> Pre :</span>
 		      <span id="selected-pre"> Neuron type</span>
 		      <span class="caret"></span>
 		  </button>
 		  <div id="neuron-dd-pre" class="dropdown-menu" aria-labelledby="dropdownMenu1"></div>
-		    
-		  <button class="btn btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		</form>
+		<form>
+		  <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		    <span>Post :</span>
 		    <span id="selected-post"> Neuron type</span>
 		    <span class="caret"></span>
 		  </button>
 		  <div id="neuron-dd-post" class="dropdown-menu" aria-labelledby="dropdownMenu2"></div>
 		</form>
-
+		</div>
 		<a class="btn btn-outline-secondary float-right" data-toggle="popover" data-container="body" data-placement="left"  data-content="Click on a neuron to select a pre-synaptic candidate. Ctrl-click to select a post-synaptic candidate. Selecting both a pre and post candidate, clicking on a link, or clicking a point in the matrix displays the experimental records for this pair.">
 		    Navigation instructions
 		  </a>

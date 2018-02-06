@@ -209,18 +209,6 @@ function makeDosePlot(pair_data){
     Plotly.newPlot("dosePlot",[dosePlotSerie,dosePlotSerieU,dosePlotSerieL],dose_layout,{displaylogo: false});
 };
 
-/// WIP Histogram plot
-function makeHistogram(metric){
-    let controlSeries = [];
-    let selfSeries = [];
-    let expSeries = [];
-    for (let k in SUPER_SUMMARY){
-	if (SUPER_SUMMARY)
-	if (SUPER_SUMMARY[k]["overlapping"])
-	    SUPER_SUMMARY[k][metric]
-    };
-}
-
 /// Matrix plot
 function makeMatrixPlot(metric){
     let matstat= Object.keys(NEURON_TYPES).map(function(pre){

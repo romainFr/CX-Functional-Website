@@ -195,13 +195,11 @@ $('#matrixPlot').on('plotly_click',function(event,data){
 $('#neuron-dd-pre a').click(function(){
     let neuron = $(this).text();
     neuronClicked(neuron,"pre")
-    //updateScatterMatrix(neuron,neuron)
 });
 
 $('#neuron-dd-post a').click(function(){
     let neuron = $(this).text();
     neuronClicked(neuron,"post")
-    //updateScatterMatrix(neuron,neuron)
 });
 
 ///// Thresholding of the diagram
