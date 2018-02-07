@@ -153,6 +153,25 @@ function connector_select(connection_name){
     makeDosePlot(connection);
     makeBaselinePlot(connection_name);
     updateTable(connection_name,20);
+    let i=0
+    $("#mecaPlot,#picroPlot").children().remove();
+    $("#mecaTitle,#picroTitle").css("display","none")
+    $("#drugModalTitle")
+    if (PAIRS_TO_EXP[connection_name].some(n => n in MECA_DATA)){
+	$("#mecaTitle").css("display","block")
+	makeDrugPlot(connection_name,"Mecamylamine")
+	i+=1
+    }
+    if (PAIRS_TO_EXP[connection_name].some(n => n in PICRO_DATA)){
+	$("#picroTitle").css("display","block")
+	makeDrugPlot(connection_name,"Picrotoxin")
+	i+=1
+    }
+    if (i == 0){
+	$("#drugButton").prop("disabled",true);
+    }else{
+	$("#drugButton").prop("disabled",false);
+    }
     currentConnection = connection_name;
 }
 

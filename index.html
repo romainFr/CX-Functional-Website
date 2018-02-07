@@ -93,7 +93,7 @@
 		  <div id="neuron-dd-post" class="dropdown-menu" aria-labelledby="dropdownMenu2"></div>
 		</form>
 		</div>
-		<a class="btn btn-outline-secondary float-right" data-toggle="popover" data-container="body" data-placement="left"  data-content="Click on a neuron to select a pre-synaptic candidate. Ctrl-click to select a post-synaptic candidate. Selecting both a pre and post candidate, clicking on a link, or clicking a point in the matrix displays the experimental records for this pair.">
+		<a class="btn btn-outline-secondary float-right" data-toggle="popover" data-container="body" data-placement="left"  data-content="Click on a neuron to select a pre-synaptic candidate. Ctrl-click to select a post-synaptic candidate. Selecting both a pre and post candidate, clicking on a link, or clicking a point in the matrix displays the experimental records for this pair. Hovering over a neuron displays it's name, while hovering over a connection displays some statistics.">
 		    Navigation instructions
 		  </a>
 
@@ -297,6 +297,9 @@
 			<label class="btn btn-outline-secondary active"><input type="radio" name="trace" id="raw" checked>Raw traces</label> 
 			<label class="btn btn-outline-secondary"><input type="radio" name="trace" id="avg">Fly averages</label>
 		      </div>
+		      <label id="drugButton" type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#drugModal">
+			Drug trials
+		      </label>
 		    </div>
 		    
 		    <div class="col-md-6">
@@ -364,6 +367,34 @@
 
 </section>
 
+<div id="drugModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="drugModalTitle"><a class="neuronName preName">Pre</a> to <a class="neuronName postName">post</a></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	<div class="card">
+	  <h6 class="card-title" id="mecaTitle">Mecamylamine applications</h6>
+	  <div style="width: 100%">
+	    <div style="min-height: 100%" id="mecaPlot"></div>
+	  </div>
+	</div>
+	<div class="card">
+	  <h6 class="card-title" id="picroTitle">Picrotoxin applications</h6>
+	  <div style="width: 100%">
+	    <div style="min-height: 100%" id="picroPlot"></div>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
 </main>
     <footer class="container-fluid">
     </footer>
@@ -376,6 +407,8 @@
     <script type="text/javascript" src="summaryData.js"></script>
     <script type="text/javascript" src="superSummary.js"></script>
     <script type="text/javascript" src="perRunData.js"></script>
+    <script type="text/javascript" src="mecaData.js"></script>
+    <script type="text/javascript" src="picroData.js"></script>
     <script type="text/javascript" src="variableDefs.js"></script>
     <script type="text/javascript" src="plots-and-layouts.js"></script>
     <script type="text/javascript" src="mainDiagram.js"></script>

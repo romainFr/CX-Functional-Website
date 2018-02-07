@@ -55,6 +55,20 @@ let baseline_layout = { xaxis:  {title: 'Fluorescence baseline (\u0394F/F)',
 			    r: 20}
 		      };
 
+/// Drug plot layout
+let drug_layout = { xaxis:  {title: 'Time to drug application',
+			     zeroline: false},
+			yaxis: {title: 'Fluorescence integral normalized to baseline',
+		            zeroline: false},
+			showlegend: false,
+			hovermode: 'closest',
+			margin: {
+			    l: 60,
+			    t: 10,
+			    r: 20}
+		      };
+
+
 /// Matrix plot layout
 let matlayout = {
     xaxis: {
@@ -172,6 +186,41 @@ function makeBaselinePlot(connection){
     }
     Plotly.newPlot('baselinePlot',baselinePlotSeries,baseline_layout,{displaylogo: false});   
 };
+
+/// Drug plot
+function makeDrugPlot(connection,drugType){
+    let drugPlotSeries = [];
+
+    let dataset = [];
+    if (drugType == "Mecamylamine"){
+	dataset = MECA_DATA;
+    }else{
+	dataset = PICRO_DATA;
+    };
+    i = 0;
+    for(expe of PAIRS_TO_EXP[connection]){
+	if (expe in dataset){
+	    let runs_data = dataset[expe]
+	    
+	    drugPlotSeries.push({x: runs_data["timeToDrug"],
+				 y: runs_data["integNorm_median"],
+				 mode: 'markers',
+				 type: 'scatter',
+				 marker: {size: 12,
+					  color: PLOT_COLORS[i]},
+				 text: expe+"<br>"+runs_data.genotype,
+				 hoverinfo: "x+y+text",
+				});
+	    i+=1;
+	};
+	
+    }if (drugType == "Mecamylamine"){
+	Plotly.newPlot('mecaPlot',drugPlotSeries,drug_layout,{displaylogo: false});   
+    }else{
+	Plotly.newPlot('picroPlot',drugPlotSeries,drug_layout,{displaylogo: false});   
+    };
+};
+
 
 //// Dose plot
 function makeDosePlot(pair_data){
