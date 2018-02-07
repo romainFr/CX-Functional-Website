@@ -1,4 +1,5 @@
 // Event triggered upon clicking neuron (or self activation in the matrix)
+let currentConnection = ""
 
 function neuronClicked(neuron_type,position="pre"){//Remove previously highlighted connections and toggle the current neuron
     console.log(neuron_type)
@@ -115,6 +116,20 @@ function updateScatterMatrix(x,y){
     Plotly.update('matrixPlot',matdata,matlayout)
 }
 
+function updateTable(connection,npulses){
+    $("#statsTable tbody").remove()
+    $("#statsTable").append("<tbody></tbody>")
+    for(expe of PAIRS_TO_EXP[connection]){
+	let runs_data = PER_RUN_DATA[expe]
+	if (npulses in runs_data){
+	    $("#statsTable tbody").append("<tr><td>"+runs_data[npulses].genotype+"</td><td>"+Number(runs_data[npulses].integral_to_peak_median[0]).toFixed(3)+"</td><td>"+Number(runs_data[npulses].repeats_correlation_median[0]).toFixed(3)+"</td><td>"+Number(runs_data[npulses].baseline_median[0]).toFixed(3)+"</td><td>"+Number(runs_data[npulses].half_decay_median[0]).toFixed(3)+"</td></tr>")
+	}   
+    }
+    let perPairData = SUMMARY_DATA[connection][npulses]
+    $("#statsTable > tbody").append("<tr><th> Median statistics</th><th></th><th></th><th></th><th></th></tr><tr><td></td><td>"+Number(perPairData.integ).toFixed(3)+"</td><td>"+Number(perPairData.repeats_corr).toFixed(3)+"</td><td>"+Number(perPairData.baseline).toFixed(3)+"</td><td>"+Number(perPairData.decay_time).toFixed(3)+"</td></tr>")
+};
+
+
 function neuronClickedFromDiagram(event){
     let neuron_type = $(this).data("neuron")
     if (event.ctrlKey || event.metaKey) {
@@ -136,7 +151,28 @@ function connector_select(connection_name){
     
     makeRawPlot(connection["20"],"rawPlot");
     makeDosePlot(connection);
-    makeBaselinePlot(PER_RUN_DATA[connection_name]);
+    makeBaselinePlot(connection_name);
+    updateTable(connection_name,20);
+    let i=0
+    $("#mecaPlot,#picroPlot").children().remove();
+    $("#mecaTitle,#picroTitle").css("display","none")
+    $("#drugModalTitle")
+    if (PAIRS_TO_EXP[connection_name].some(n => n in MECA_DATA)){
+	$("#mecaTitle").css("display","block")
+	makeDrugPlot(connection_name,"Mecamylamine")
+	i+=1
+    }
+    if (PAIRS_TO_EXP[connection_name].some(n => n in PICRO_DATA)){
+	$("#picroTitle").css("display","block")
+	makeDrugPlot(connection_name,"Picrotoxin")
+	i+=1
+    }
+    if (i == 0){
+	$("#drugButton").prop("disabled",true);
+    }else{
+	$("#drugButton").prop("disabled",false);
+    }
+    currentConnection = connection_name;
 }
 
 // Events triggered when clicking a connector
@@ -178,13 +214,11 @@ $('#matrixPlot').on('plotly_click',function(event,data){
 $('#neuron-dd-pre a').click(function(){
     let neuron = $(this).text();
     neuronClicked(neuron,"pre")
-    //updateScatterMatrix(neuron,neuron)
 });
 
 $('#neuron-dd-post a').click(function(){
     let neuron = $(this).text();
     neuronClicked(neuron,"post")
-    //updateScatterMatrix(neuron,neuron)
 });
 
 ///// Thresholding of the diagram
@@ -209,7 +243,7 @@ $('input[name=pulses],input[name=trace]').on('change',function(){
 	v.visible = (v.pulse_selector == nPulses)
     });
     
-	
+    updateTable(currentConnection,nPulses);
     Plotly.update("baselinePlot",currentBaselinePlot.data,currentBaselinePlot.layout)    
     Plotly.update("rawPlot",currentPlot.data,currentPlot.layout)    
 });
@@ -236,5 +270,6 @@ $(document).on("click",".neuropile",function(){
         linksHere.toggleClass("unselected_connection",np_schematics.hasClass("unselected_neuropile"));
 
 });
+
 
 

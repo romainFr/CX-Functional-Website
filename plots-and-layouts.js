@@ -7,7 +7,6 @@ let raw_layout = { xaxis:  {title: 'Time (s)',
 		                zeroline: false},
 		            showlegend: false,
 		            hovermode: 'closest',
-		 //  autosize: true,
 		   margin: {l: 60,
 			    t: 10,
 			    r: 20},
@@ -37,7 +36,6 @@ let dose_layout = { xaxis:  {title: 'Number of pulses',
 		            zeroline: false},
 		    showlegend: false,
 		    hovermode: 'closest',
-		   // autosize: true,
 		    margin: {
 			l: 60,
 			t: 10,
@@ -51,18 +49,28 @@ let baseline_layout = { xaxis:  {title: 'Fluorescence baseline (\u0394F/F)',
 		            zeroline: false},
 			showlegend: false,
 			hovermode: 'closest',
-		//	autosize: true,
 			margin: {
 			    l: 60,
 			    t: 10,
 			    r: 20}
 		      };
 
+/// Drug plot layout
+let drug_layout = { xaxis:  {title: 'Time to drug application',
+			     zeroline: false},
+			yaxis: {title: 'Fluorescence integral normalized to baseline',
+		            zeroline: false},
+			showlegend: false,
+			hovermode: 'closest',
+			margin: {
+			    l: 60,
+			    t: 10,
+			    r: 20}
+		      };
+
+
 /// Matrix plot layout
 let matlayout = {
-   // width: 800,
-    // height: 800,
-//    autosize: true,
     xaxis: {
 	title: "Post-synaptic candidate",
 	autorange: true,
@@ -103,15 +111,17 @@ function makeRawTraces(nP,table_line){
     for(expe of PAIRS_TO_EXP[table_line.cellPair]){
 	let exper = FULL_DATA[expe];
 	let avg_exper = AVG_DATA[expe];
+	let stats = PER_RUN_DATA[expe];
 	if (nP in exper){
 	    avg_exper = avg_exper[nP];
 	    exper = exper[nP];
+	    stats = stats[nP];
 	    for (y in exper.y){
 		series.push({x: exper.x,
 			     y: exper.y[y],
 			     name: expe,
 			     opacity: 1,
-			     text: expe,
+			     text: expe+"<br>"+stats.genotype,
 			     hoverinfo: "x+y+text",
 			     line: {
 				 width: 1,
@@ -125,7 +135,7 @@ function makeRawTraces(nP,table_line){
 			 y: avg_exper.y,
 			 name: expe,
 			 opacity: 1,
-			 text: expe+"average",
+			 text:  expe+"<br>"+stats.genotype,
 			 hoverinfo: "x+y+text",
 			 line: {
 				 width: 2,
@@ -155,24 +165,62 @@ function makeRawPlot(table_line,loc){
 }
 
 /// Baseline plot
-function makeBaselinePlot(runs_data){
+function makeBaselinePlot(connection){
     let baselinePlotSeries = [];
-    
-    for (nP of PULSE_N){
-	let runD = runs_data[nP]
-	baselinePlotSeries.push({x: runs_data[nP]["baseline_median"],
-				 y: runs_data[nP]["integral_to_peak_median"],
-				 mode: 'markers',
-				 type: 'scatter',
-				 marker: {size: 12,
-					  color: INH_COLOR},
-				 visible: (nP == $('input[name=pulses]:checked').val()),
-				 pulse_selector: nP
-				});
-				
+
+    for(expe of PAIRS_TO_EXP[connection]){
+	let runs_data = PER_RUN_DATA[expe]
+	for (nP of PULSE_N){
+	    if (nP in runs_data){
+	    baselinePlotSeries.push({x: runs_data[nP]["baseline_median"],
+				     y: runs_data[nP]["integral_to_peak_median"],
+				     mode: 'markers',
+				     type: 'scatter',
+				     marker: {size: 12,
+					      color: INH_COLOR},
+				     visible: (nP == $('input[name=pulses]:checked').val()),
+				     pulse_selector: nP
+				    });
+	    }
+	}
     }
     Plotly.newPlot('baselinePlot',baselinePlotSeries,baseline_layout,{displaylogo: false});   
 };
+
+/// Drug plot
+function makeDrugPlot(connection,drugType){
+    let drugPlotSeries = [];
+
+    let dataset = [];
+    if (drugType == "Mecamylamine"){
+	dataset = MECA_DATA;
+    }else{
+	dataset = PICRO_DATA;
+    };
+    i = 0;
+    for(expe of PAIRS_TO_EXP[connection]){
+	if (expe in dataset){
+	    let runs_data = dataset[expe]
+	    
+	    drugPlotSeries.push({x: runs_data["timeToDrug"],
+				 y: runs_data["integNorm_median"],
+				 mode: 'markers',
+				 type: 'scatter',
+				 marker: {size: 12,
+					  color: PLOT_COLORS[i]},
+				 text: expe+"<br>"+runs_data.genotype,
+				 hoverinfo: "x+y+text",
+				});
+	    i+=1;
+	};
+	
+    }if (drugType == "Mecamylamine"){
+	Plotly.newPlot('mecaPlot',drugPlotSeries,drug_layout,{displaylogo: false});   
+    }else{
+	Plotly.newPlot('picroPlot',drugPlotSeries,drug_layout,{displaylogo: false});   
+    };
+};
+
 
 //// Dose plot
 function makeDosePlot(pair_data){
@@ -210,18 +258,6 @@ function makeDosePlot(pair_data){
     Plotly.newPlot("dosePlot",[dosePlotSerie,dosePlotSerieU,dosePlotSerieL],dose_layout,{displaylogo: false});
 };
 
-/// WIP Histogram plot
-function makeHistogram(metric){
-    let controlSeries = [];
-    let selfSeries = [];
-    let expSeries = [];
-    for (let k in SUPER_SUMMARY){
-	if (SUPER_SUMMARY)
-	if (SUPER_SUMMARY[k]["overlapping"])
-	    SUPER_SUMMARY[k][metric]
-    };
-}
-
 /// Matrix plot
 function makeMatrixPlot(metric){
     let matstat= Object.keys(NEURON_TYPES).map(function(pre){
@@ -231,7 +267,7 @@ function makeMatrixPlot(metric){
 	    }else{return(SUPER_SUMMARY[pre+"-to-"+post][metric])};
 	}));	
     });
-    
+
     let statVals = Object.values(SUPER_SUMMARY).map(function(st){return(st[metric])})
     var midPoint = -Math.min(...statVals)/(Math.max(...statVals)-Math.min(...statVals))
 
@@ -274,7 +310,6 @@ function makeMatrixPlot(metric){
 	    mode: "markers",
 	    marker: {
 		color: HGH_COLOR,
-	//	size: 14,
 		symbol: "square-open"
 	    },
 	    name: "Anatomical overlap",
@@ -286,7 +321,6 @@ function makeMatrixPlot(metric){
 	  mode: "markers",
 	  marker: {
 	      color: HGH_COLOR,
-          //    size: 10
 	  },
 	  showlegend: false,
 	  hoverinfo: 'skip'
