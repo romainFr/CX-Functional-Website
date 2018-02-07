@@ -218,7 +218,7 @@ function makeMatrixPlot(metric){
 	    }else{return(SUPER_SUMMARY[pre+"-to-"+post][metric])};
 	}));	
     });
-    
+
     let statVals = Object.values(SUPER_SUMMARY).map(function(st){return(st[metric])})
     var midPoint = -Math.min(...statVals)/(Math.max(...statVals)-Math.min(...statVals))
 
@@ -261,7 +261,6 @@ function makeMatrixPlot(metric){
 	    mode: "markers",
 	    marker: {
 		color: HGH_COLOR,
-	//	size: 14,
 		symbol: "square-open"
 	    },
 	    name: "Anatomical overlap",
@@ -273,7 +272,6 @@ function makeMatrixPlot(metric){
 	  mode: "markers",
 	  marker: {
 	      color: HGH_COLOR,
-          //    size: 10
 	  },
 	  showlegend: false,
 	  hoverinfo: 'skip'
