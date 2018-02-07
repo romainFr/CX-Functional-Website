@@ -233,11 +233,11 @@
       .container{
       display: grid;
       grid-template-columns: 100px 100px 100px 100px 100px 100px 90px 110px;
-      grid-template-rows: 20px auto 20px auto 20px auto;
+      grid-template-rows: 20px 200px 20px 200px 20px 200px auto;
       align-items: center;
       grid-template-areas:
-      "titleAi . titleAii . titleAiii . . ."
-      "diagramAi diagramAi diagramAii diagramAii diagramAiii diagramAiii diagramAiii diagramAiii"
+      "titleAi . . titleAii . titleAiii . ."
+      "diagramAi diagramAi diagramAi diagramAii diagramAii diagramAiii diagramAiii diagramAiii"
       "titleB . . . . . titleC ."
       "diagramB diagramB diagramB diagramB diagramB diagramB diagramC diagramC"
       "titleDi . . . titleDii . . ."
@@ -387,18 +387,36 @@
       //sT is the full drawing
       var AiT = Snap("#networkDiagramAi");
       var Ai = AiT.group();
+
+      var AiiT = Snap("#networkDiagramAii");
+      var Aii = AiiT.group();
+
+      var AiiiT = Snap("#networkDiagramAiii");
+      var Aiii = AiiiT.group();
+
+      var BT = Snap("#networkDiagramB");
+      var B = BT.group();
+
+      var CT = Snap("#networkDiagramC");
+      var C = CT.group();
+
+      var DiT = Snap("#networkDiagramDi");
+      var Di = DiT.group();
+      
+      var DiiT = Snap("#networkDiagramDii");
+      var Dii = DiiT.group();
+
+      
       const DIAGRAM_WIDTH = 1700;
       const DIAGRAM_HEIGHT = 1700;
       const SCALE_LINKS = 30;
-      function prepareDiag(sT,s){
+      function prepareDiag(sT,s,widthFactor){
       s.rect()
       .attr({width: "100%",
 	   height: "100%",
 	   fill: "white"});
 
-      
-      
-      sT.attr({viewBox: [0,0,DIAGRAM_WIDTH,DIAGRAM_HEIGHT]});
+      sT.attr({viewBox: [0,0,DIAGRAM_WIDTH*widthFactor,DIAGRAM_HEIGHT]});
 
       //// DEFINING MARKERS FOR LINKS /////////////////
 
@@ -430,7 +448,13 @@
       }).toDefs();
       }
 
-      prepareDiag(AiT,Ai)
+      prepareDiag(AiT,Ai,1.5)
+      prepareDiag(AiiT,Aii,1)
+      prepareDiag(AiiiT,Aiii,1.5)
+      prepareDiag(BT,B,3)
+      prepareDiag(CT,C,1)
+      prepareDiag(DiT,Di,2)
+      prepareDiag(DiiT,Dii,2)
       
       let scale_factor = (AiT.node.getBoundingClientRect().height/DIAGRAM_HEIGHT)//*(199/strLegend.node.getBoundingClientRect().width);
       console.log(scale_factor)
@@ -442,26 +466,50 @@
 
   Snap.load("images/CXSchematicAnnotatedWithNeurons.svg",function(f){
     // This is the neuropile drawing, which has some attributes we'll need
-    const CX = f.select("g[id='central complex']");
-    const CX_TRANS = CX.attr("transform");
-    let neuropile_fragments = new Map;
-    for (let np in NEUROPILES_FULL_NAMES){
-        let myNp = Ai.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
+      const CX = f.select("g[id='central complex']");
+      const CX_TRANS = CX.attr("transform");
+      let neuropile_fragments = new Map;
+      for (let np in NEUROPILES_FULL_NAMES){
+      Ai.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
+      Aii.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
+      Aiii.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
+      B.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
+      C.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
+      Di.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
+      Dii.append(CX.select("g[id='"+NEUROPILES_FULL_NAMES[np]+"']"));
         neuropile_fragments[NEUROPILES_FULL_NAMES[np]]=
             Snap("g[id='"+NEUROPILES_FULL_NAMES[np]+"']").toDefs();
     };
 
     //////////////// DRAW THE DIAGRAM ///////////////////////////
     
-    
-    const XCOLU = 800;
-    const YCOLU = 1000;
 
-      drawNeuron(f,Ai,"PBG1-8.b-EBw.s-DV_GA.b",neuropile_fragments,CX_TRANS,[700,100])
-    
-      drawNeuron(f,Ai,"EBORP O-I-GA-Bulb",neuropile_fragments,CX_TRANS,[0,400])
-      drawNeuron(f,Ai,"EBIRP I-O-LAL.s",neuropile_fragments,CX_TRANS,[50,700])
-     
+      drawNeuron(f,Ai,"PBG1-8.b-EBw.s-DV_GA.b",neuropile_fragments,CX_TRANS,[1300,30])
+      drawNeuron(f,Ai,"EBORP O-I-GA-Bulb",neuropile_fragments,CX_TRANS,[100,400])
+      drawNeuron(f,Ai,"EBIRP I-O-LAL.s",neuropile_fragments,CX_TRANS,[500,700])
+
+      drawNeuron(f,Aii,"PBG2-9.s-EBt.b-NO1.b.Type1",neuropile_fragments,CX_TRANS,[100,30])
+      drawNeuron(f,Aii,"PBG2-9.s-EBt.b-NO1.b.Type2",neuropile_fragments,CX_TRANS,[700,30])
+      drawNeuron(f,Aii,"LAL.s-GAi.s-NO1i.b",neuropile_fragments,CX_TRANS,[300,700])
+
+      drawNeuron(f,Aiii,"PBG2-9.b-IB.s.SPS.s",neuropile_fragments,CX_TRANS,[800,100])
+      drawNeuron(f,Aiii,"PBG2-9.s-EBt.b-NO1.b.Type1",neuropile_fragments,CX_TRANS,[0,700])
+      drawNeuron(f,Aiii,"PBG2-9.s-FBl3.b-NO2D.b",neuropile_fragments,CX_TRANS,[700,700])
+      drawNeuron(f,Aiii,"PBG2-9.s-FBl1.b-NO3PM.b",neuropile_fragments,CX_TRANS,[1400,700])
+
+      drawNeuron(f,B,"PB18.s-GxΔ7Gy.b-PB18.s-9i1i8c.b",neuropile_fragments,CX_TRANS,[500,30])
+      drawNeuronClass(f,B,"EB columnar",neuropile_fragments,CX_TRANS,[30,500],[600,100])
+      drawNeuronClass(f,B,"FB columnar",neuropile_fragments,CX_TRANS,[2500,500],[600,100])
+
+      drawNeuron(f,C,"PBG1-7.s-FBl2.s-LAL.b-cre.b",neuropile_fragments,CX_TRANS,[30,30])
+      drawNeuron(f,C,"SMP.s-LAL.s-LAL.b.contra",neuropile_fragments,CX_TRANS,[700,700])
+
+      drawNeuron(f,Di,"PBG1-8.b-EBw.s-DV_GA.b",neuropile_fragments,CX_TRANS,[1000,30])
+      drawNeuron(f,Di,"EBORP O-I-GA-Bulb",neuropile_fragments,CX_TRANS,[100,700])
+      drawNeuron(f,Di,"PBG1-8.s-EBt.b-DV_GA.b",neuropile_fragments,CX_TRANS,[2000,500])
+
+      drawNeuron(f,Dii,"PB18.s-GxΔ7Gy.b-PB18.s-9i1i8c.b",neuropile_fragments,CX_TRANS,[1000,30])
+      drawNeuronClass(f,Dii,"EB columnar",neuropile_fragments,CX_TRANS,[300,500],[600,100])
       
     // Draw the links
     Object.keys(SUMMARY_DATA).forEach(function(pair){
@@ -469,9 +517,31 @@
 	d.cellPair = pair;
 	let summ = SUPER_SUMMARY[pair];
 	
-        if ((Ai.select("g[id='"+d.preNeuron+"']") != null) & (Ai.select("g[id='"+d.postNeuron+"']") != null)){//& (d.preNeuron != d.postNeuron)){
+        if ((Ai.select("g[parent_name='"+d.preNeuron+"']") != null) & (Ai.select("g[parent_name='"+d.postNeuron+"']") != null)){//& (d.preNeuron != d.postNeuron)){
             drawLink(d,summ,Ai);
-	};	
+      };
+      if ((Aii.select("g[parent_name='"+d.preNeuron+"']") != null) & (Aii.select("g[parent_name='"+d.postNeuron+"']") != null)){//& (d.preNeuron != d.postNeuron)){
+            drawLink(d,summ,Aii);
+      };
+
+       if ((Aiii.select("g[parent_name='"+d.preNeuron+"']") != null) & (Aiii.select("g[parent_name='"+d.postNeuron+"']") != null)){//& (d.preNeuron != d.postNeuron)){
+            drawLink(d,summ,Aiii);
+      };
+
+      if ((B.select("g[parent_name='"+d.preNeuron+"']") != null) & (B.select("g[parent_name='"+d.postNeuron+"']") != null) & (guessConnectionLocation(NEURON_TYPES[d.preNeuron],NEURON_TYPES[d.postNeuron]) == "PB")){//& (d.preNeuron != d.postNeuron)){
+            drawLink(d,summ,B);
+      };
+
+      if ((C.select("g[parent_name='"+d.preNeuron+"']") != null) & (C.select("g[parent_name='"+d.postNeuron+"']") != null)){//& (d.preNeuron != d.postNeuron)){
+            drawLink(d,summ,C);
+      };
+      if ((Di.select("g[parent_name='"+d.preNeuron+"']") != null) & (Di.select("g[parent_name='"+d.postNeuron+"']") != null)){//& (d.preNeuron != d.postNeuron)){
+            drawLink(d,summ,Di);
+      };
+       if ((Dii.select("g[parent_name='"+d.preNeuron+"']") != null) & (Dii.select("g[parent_name='"+d.postNeuron+"']") != null)){//& (d.preNeuron != d.postNeuron)){
+            drawLink(d,summ,Dii);
+      };
+      
       });
       ////////END DRAWING/////////////////////////
 });
@@ -489,11 +559,11 @@ function drawNeuron(drawing,diag,neuron_type,frags,CX_TRANS,position){
     // First the neuropiles
     drawNeuropiles(NEURON_TYPES[neuron_type].innervates,g,"neuropile-diagram",neuron_type+"-","",CX_TRANS,frags,false,NEURON_TYPES[neuron_type].pre,NEURON_TYPES[neuron_type].post)
    
-    // Then the neuron itself
-    neuron = drawing.select("g[id='"+neuron_type+"']");
-    neuron.addClass("single_neuron");
-    g.add(neuron);
-    
+      // Then the neuron itself
+      neuron = drawing.select("g[id='"+neuron_type+"']");
+      neuron.addClass("single_neuron");
+      g.add(neuron.clone().attr({parent_name: neuron_type}));
+ 
     let neuronBox = g.getBBox();
     let neuronTrans = g.transform().localMatrix.invert();
     let neuronBoxRect=diag.rect(neuronTrans.x(neuronBox.x,neuronBox.y),neuronTrans.y(neuronBox.x,neuronBox.y),neuronBox.w,neuronBox.h,30,30);
@@ -518,7 +588,6 @@ function drawNeuropiles(neuropiles,
 			preRegions=[],
 			postRegions=[]){
     for (let np of neuropiles){
-	//let npile_templ = drawing.group();
 	let npile = frags[NEUROPILES_FULL_NAMES[np]].use().addClass(class_name).attr({
 										      transform: transfo,
 										      id: id_pre+NEUROPILES_FULL_NAMES[np]+id_post,
@@ -539,13 +608,13 @@ function drawNeuropiles(neuropiles,
     };
 }
 
-function drawNeuronClass(drawing,supertype,frags,CX_TRANS,start_position,position_offset){
-    let class_g = s.group().attr({id: supertype});
+function drawNeuronClass(drawing,targ,supertype,frags,CX_TRANS,start_position,position_offset){
+    let class_g = targ.group().attr({id: supertype});
     for (let nr of SUPERTYPES[supertype]){
 	if (drawing.select("g[id='"+nr+"']") != null){
-            var neuro = drawNeuron(drawing,nr,frags,CX_TRANS,start_position);
+            var neuro = drawNeuron(drawing,targ,nr,frags,CX_TRANS,start_position);
             class_g.append(neuro);
-            s.append(class_g);
+            targ.append(class_g);
          for (j in [0,1]){start_position[j]=start_position[j]+position_offset[j]};
        };
     };
