@@ -628,7 +628,6 @@ function guessConnectionLocation(preNeuron,postNeuron){
     return(res[0])  /// We'll go with the first answer.
 }
 
-//function drawLink(preNeuron,postNeuron,strength,reliability){
 function drawLink(table_line,summary_line,diag){
    
     let connection_loc = guessConnectionLocation(NEURON_TYPES[table_line.preNeuron],
@@ -640,20 +639,24 @@ function drawLink(table_line,summary_line,diag){
     
     // Firefox doesn't return anything with the Snap getBBox function... Apparently Firefox is respecting the svg specifications better
     // so we change to this "safe version"
-    let start_box = diag.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").node.getBBox();
+  let start_box = diag.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").node.getBBox();
+    let end_box = diag.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").node.getBBox();
     let start_points=[
 	{x: start_box.x+start_box.width, y:start_box.y+start_box.height/2},
-	{x: start_box.x, y:start_box.y+start_box.height/2},
-        {x: start_box.x+start_box.width/2, y:start_box.y},
-        {x: start_box.x+start_box.width/2, y:start_box.y+start_box.height}
-    ];
-    let end_box = diag.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").node.getBBox();
+	{x: start_box.x, y:start_box.y+start_box.height/2}
+	];
     let end_points=[
         {x: end_box.x+end_box.width, y:end_box.y+end_box.height/2},
-	{x: end_box.x, y:end_box.y+end_box.height/2},
-        {x: end_box.x+end_box.width/2, y:end_box.y},
-        {x: end_box.x+end_box.width/2, y:end_box.y+end_box.height}
+	{x: end_box.x, y:end_box.y+end_box.height/2}
     ];
+    
+    // less start/end points for Gall and LAL as they have this bilateral innervation
+    if ((connection_loc != "GA") & (connection_loc != "LAL")){
+	start_points.push({x: start_box.x+start_box.width/2, y:start_box.y},
+			  {x: start_box.x+start_box.width/2, y:start_box.y+start_box.height});
+	end_points.push({x: end_box.x+end_box.width/2, y:end_box.y},
+			{x: end_box.x+end_box.width/2, y:end_box.y+end_box.height});
+    };
     let start_transfo = start_neuron.transform()
         .localMatrix.add(diag.select("use[id='"+table_line.preNeuron+"-"+ NEUROPILES_FULL_NAMES[connection_loc]+"']").transform().localMatrix);
     let end_transfo = end_neuron.transform()
