@@ -15,7 +15,8 @@
     <style>
       html {
       font-size: 10px;
-      font-family: "DejaVuSans", sans-serif;
+      font-family: DejaVu Sans, sans-serif;
+      color: #999999;
       }
       /* Colors definitions */
       :root {
@@ -474,8 +475,11 @@ $('#matrixPlot').on('plotly_click',function(event,data){
 });
       	/// Matrix plot layout
 let matlayout = {
-    width: 800,
-     height: 800,
+		width: 800,
+		height: 800,
+		font: {size: "10px",
+		family: "DejaVu Sans",	
+		color: "#999999"},
     xaxis: {
 	title: "Post-synaptic candidate",
 	autorange: true,
