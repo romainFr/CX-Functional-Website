@@ -1,6 +1,6 @@
 /* Colors definitions */
 :root {
-    --excitatory-color: #D67F3A;/*#D55E00;/*#CC79A7;/*#B88784;*/
+    --excitatory-color:#CC797A;/*#CC79A7;/* #D67F3A;/*#D55E00;/*#CC79A7;/*#B88784;*/
     --inhibitory-color: #5992B2;/*#0072B2;/*#4E7B96;/*#4E9496;*/
     --pre-color: #FFE19F;/*#F5D899;/*#928479;*/
     --post-color: #B0DED0;/*#ABD8CB;/*#99D8C7;*//*#7C8FA3;*/
