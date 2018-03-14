@@ -29,6 +29,18 @@
     --highlight-color: #841ea4;
 }
 
+
+      #preLegend{
+      fill: var(--pre-color);
+      }
+      
+      #postLegend{
+      fill: var(--post-color);
+      }
+      
+      #mixedLegend{
+      fill: var(--mixt-color);
+      }
       /* Neuropiles*/
       
       .neuropile,  .neuropile-diagram{
@@ -136,7 +148,12 @@
       .diagram{
       grid-area: draw;
       }
- 
+
+      .subtitle0{
+      grid-area: subtitle0;
+      justify-self: center
+      }
+      
       .subtitle1{
       grid-area: subtitle1
       }
@@ -161,7 +178,17 @@
       .legend-narrow{
       grid-template-columns: 40px 40px;
       }
-     
+
+      .legend-long{
+      grid-template-columns: 15px 70px 15px 70px 15px 70px;
+      grid-auto-rows: 15px;
+      grid-column-gap: 10px;
+      }
+
+      .legend0{
+      grid-area: leg0
+      }
+      
       .legend1{
       grid-area: leg1
       }
@@ -186,17 +213,17 @@
       grid-area: title
       }
 
-.titleB{
+      .titleB{
       grid-area: titleB
       }
       
       .container{
       display: grid;
       grid-template-columns: 100px 200px 100px 200px 90px 110px;
-      grid-template-rows: 20px auto auto 20px 800px;
+      grid-template-rows: auto auto auto 20px 800px;
       align-items: center;
       grid-template-areas:
-      "title . . . . ."
+      "title . subtitle0 leg0 leg0 . "
       "draw draw draw draw draw draw"
       "subtitle1 leg1 subtitle2 leg2 subtitle3 leg3 "
       "titleB . . . . ."
@@ -213,17 +240,41 @@
     <main>
       <section class="container" id="MainPanel">
 	<font size="3" class="letterTitle">A</font>
-	  <div class="diagram"><!-- Diagram panel-->
-	      <svg id="networkDiagram"></svg>
-	  </div><!--End diagram col -->
+	<h6 class="subtitle0">Polarity :</h6>
+	<div class="legend legend-long legend0">
+	  <div class="circleLeg">
+	    <svg  width="100%" height="15px">
+	      <circle id="preLegend" cx="50%" cy="7.5" r="7"/>
+	    </svg>
+	  </div>
+	  <a>Presynaptic</a>
 
-	  <h6 class="subtitle1">Response strength :</h6>
-	  <div class="legend legend1">
-	    <div class="line1">
-	      <svg width="100%" height="20px">
-		<line class="legend-connector width-connector"  x1="0" y1="10" x2="40" y2="10" stroke="gray" data-strength="1.08"/>
-	      </svg>
-	    </div>
+	  <div class="circleLeg">
+	    <svg  width="100%" height="15px">
+	      <circle id="postLegend" cx="50%" cy="7.5" r="7"/>
+	    </svg>
+	  </div>
+	  <a>Postsynaptic</a>
+
+	  <div class="circleLeg">
+	    <svg  width="100%" height="15px">
+	      <circle id="mixedLegend" cx="50%" cy="7.5" r="7"/>
+	    </svg>
+	  </div>
+	  <a>Mixed</a>
+	</div>
+	
+	<div class="diagram"><!-- Diagram panel-->
+	  <svg id="networkDiagram"></svg>
+	</div><!--End diagram col -->
+
+	<h6 class="subtitle1">Response strength :</h6>
+	<div class="legend legend1">
+	  <div class="line1">
+	    <svg width="100%" height="20px">
+	      <line class="legend-connector width-connector"  x1="0" y1="10" x2="40" y2="10" stroke="gray" data-strength="1.08"/>
+	    </svg>
+	  </div>
 	    <a class="text1">1</a>
 	    
 	    <div class="line2">
@@ -239,10 +290,10 @@
 	      </svg>
 	    </div>
 	    <a class="text3">0.1</a>
-	  </div>
+	</div>
 	  
-	  <!-- Reliability column-->
-	  <h6 class="subtitle2">Response reliability :</h6>
+	<!-- Reliability column-->
+	<h6 class="subtitle2">Response reliability :</h6>
 
 	    <div class="legend legend2">
 	      <div>
